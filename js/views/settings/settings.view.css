@@ -1,0 +1,79 @@
+/* Paramètres ============================================================== */
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  gap: 16px;
+
+  .setting-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .themes-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    gap: 8px;
+
+    .lzr-radio-group {
+      gap: 0;
+      .lzr-radio-raw {
+        padding: 8px 0;
+      }
+    } 
+  }
+
+}
+
+.storage-option-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%; max-width: 100%;
+  /* border: 1px solid black; */
+  gap: 8px;
+
+  p {
+    margin-bottom: 8px;
+  }
+  hr {
+    margin-top: 16px;
+  }
+
+  input[type="file"] {
+    width: 100%;
+    height: 64px;
+  }
+}
+
+.credit-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
+.bottom-block {
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  gap: 8px;
+  width: 100%; 
+  margin-top: auto;
+
+  .lzr-store-link {
+    padding: 0;
+  }
+}

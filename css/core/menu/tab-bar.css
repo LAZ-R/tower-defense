@@ -1,0 +1,45 @@
+.lzr {
+  .lzr-tab-bar {
+    --buttons-count: 1;
+    --button-width: calc(100svw / var(--buttons-count));
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    min-height: var(--height--tab-bar); height: var(--height--tab-bar); max-height: var(--height--tab-bar);
+    background-color: var(--color--bg-default);
+    overflow: hidden;
+
+    .tab-bar-button {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-width: var(--button-width); width: var(--button-width); max-width: var(--button-width);
+      height: 100%;
+      background-color: transparent;
+      border: none;
+      padding: 0px;
+      gap: 4px;
+      -webkit-tap-highlight-color: transparent;
+
+      text-decoration: none;
+      font-size: 12px;
+      color: var(--color--fg-default);
+      font-weight: 500;
+      opacity: .5;
+
+      &:active {
+        opacity: .75;
+        /* background-color: var(--color--bg-default--hover); */
+      }
+
+      &.selected {
+        opacity: 1;
+        /* background-color: var(--color--bg-default--hover); */
+        
+        color: var(--color--primary);
+        .lzr-icon { path { fill: var(--color--primary);}}
+      }
+    }
+  }
+}

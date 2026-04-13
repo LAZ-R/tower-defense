@@ -1,0 +1,33 @@
+.lzr {
+
+  .lzr-list-menu {
+
+    .menu-title {
+      color: var(--color--primary);
+      font-weight: 600;
+    }
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0;
+      padding: 0;
+      /* padding-left: 18px; */
+
+      li {
+        list-style: none;
+
+        .lzr-button {
+          justify-content: flex-start;
+          /* font-size: 12px */;
+          padding: 4px 8px;
+          font-weight: 500;
+
+          /* &:hover {
+            text-decoration: underline;
+          } */
+        }
+      }
+    }
+  }
+}

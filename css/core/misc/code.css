@@ -1,0 +1,84 @@
+.lzr {
+
+  .code {
+  
+    .code-header {
+      display: flex;
+      justify-content: flex-start;
+      align-items: baseline;
+      min-width: 100%; width: 100%; max-width: 100%;
+      background-color: var(--color--bg-default);
+      padding: 4px 16px;
+      font-weight: 900;
+      border-radius: var(--border-radius--default) var(--border-radius--default) 0 0;
+    }
+    .code-body {
+      display: block;
+      background-color: if(
+        style(--theme: 'light'): var(--color--bg-80);
+        style(--theme: 'dark'): var(--color--bg-20);
+        style(--theme: 'alternative'): var(--color--bg-20);
+        else: black;
+      );
+      padding: 8px 16px;
+      color: white;
+      border-radius: 0 0 var(--border-radius--default) var(--border-radius--default);
+  
+      .indent {
+        opacity: 0;
+      }
+  
+      /* HTML */
+      .opening-tag {
+        color: #fdca78;
+        &::before {
+          content: '<';
+        color: hsl(0, 0%, 66%);
+        }
+        &::after {
+          content: '>';
+        color: hsl(0, 0%, 66%);
+        }
+      }
+      .input-tag {
+        color: #fdca78;
+        &::before {
+          content: '<';
+        color: hsl(0, 0%, 66%);
+        }
+        &::after {
+          content: '/>';
+        color: hsl(0, 0%, 66%);
+        }
+      }
+      .closing-tag {
+        color: #fdca78;
+        &::before {
+          content: '</';
+        color: hsl(0, 0%, 66%);
+        }
+        &::after {
+          content: '>';
+        color: hsl(0, 0%, 66%);
+        }
+      }
+      .tag-attribute {
+        color: hsl(0, 0%, 85%);
+      }
+      .quotes {
+        color: #adbb4b;
+      }
+      .comment {
+        color: hsl(0, 0%, 66%);
+        &::before {
+          content: '<!-- ';
+        color: hsl(0, 0%, 66%);
+        }
+        &::after {
+          content: ' -->';
+        color: hsl(0, 0%, 66%);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,120 @@
+.lzr {
+
+  .lzr-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    /* gap: 8px; */
+    width: 100%;
+
+    .lzr-checkbox-raw {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      gap: 8px;
+      border-radius: var(--border-radius--default);
+      padding: 8px;
+
+      @media (pointer: fine) {
+        cursor: pointer;
+        &:hover {
+          background-color: var(--color--bg-default--hover);
+        }
+        &:active {
+          background-color: var(--color--bg-default--active);
+        }
+      }
+      &:active {
+        outline: 4px solid var(--color--outline--primary);
+      }
+  
+      label {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 100%;
+
+        @media (pointer: fine) {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .lzr-checkbox {
+    --size: 20px;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    margin: 0;
+
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: var(--size); width: var(--size); max-width: var(--size);
+    min-height: var(--size); height: var(--size); max-height: var(--size);
+    border-radius: var(--border-radius--default);
+
+    border: 2px solid var(--color--fg-default);
+    transition: border 0.2s linear;
+
+    &:before {
+      position: absolute;
+      content: '✓';
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: calc(var(--size) / 1); width: calc(var(--size) / 1); max-width: calc(var(--size) / 1);
+      min-height: calc(var(--size) / 1); height: calc(var(--size) / 1); max-height: calc(var(--size) / 1);
+      color: var(--color--on-primary);
+      font-size: calc(var(--size) / 1.5);
+      font-weight: 900;
+      transition: opacity 0.2s 0.2s linear;
+      opacity: 0;
+      font-family: monospace;
+    }
+
+    &:checked {
+      border: calc(var(--size) / 2) solid var(--color--primary);
+
+      &:before {
+        opacity: 1;
+      }
+    }    
+    
+    @media (pointer: fine) {
+      cursor: pointer;
+    }
+  }
+
+  .lzr-radio {
+    --size: 16px;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border-radius: 50%;
+    min-width: var(--size); width: var(--size); max-width: var(--size);
+    min-height: var(--size); height: var(--size); max-height: var(--size);
+
+    border: 2px solid var(--color--fg-default);
+    transition: 0.2s all linear;
+
+    position: relative;
+
+    &:checked {
+      border: 8px solid var(--color--primary);
+    }
+
+    @media (pointer: fine) {
+      cursor: pointer;
+    }
+  }
+}

@@ -1,0 +1,1011 @@
+.lzr {
+  
+  .lzr-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    margin: 0;
+    border-radius: var(--border-radius--button);
+    -webkit-tap-highlight-color: transparent;
+    
+    font-family: var(--font-family--default);
+    font-size: var(--font-size--default);
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+  
+    border: 1px solid var(--color--bg-default);
+    background-color: var(--color--bg-default);
+    color: var(--color--fg-default);
+    transition: background-color .15s linear, border-color .15s linear, color .15s linear;
+  
+    @media (pointer: fine) {
+      &:hover {
+        border: 1px solid var(--color--bg-default--hover);
+        background-color: var(--color--bg-default--hover);
+        cursor: pointer;
+      }
+    }
+    &:active {
+      border: 1px solid var(--color--bg-default--active);
+      background-color: var(--color--bg-default--active);
+      cursor: pointer;
+      outline: 4px solid var(--color--outline--default);
+    }
+  
+    .lzr-icon {
+      path { 
+        transition: fill .2s linear;
+        fill: var(--color--fg-default); 
+      }
+    }
+  
+    &.lzr-pill {
+      padding: 8px 18px;
+      border-radius: 500px;
+    }
+  
+    &.lzr-round {
+      /* display: block; */
+      height: max-content;
+      /* inline-size: max-content; */
+      aspect-ratio: 1;
+      padding: 8px;
+      border-radius: 500px;
+      text-wrap: wrap;
+    }
+  
+    &.lzr-square {
+      /* display: block; */
+      height: max-content;
+      /* inline-size: max-content; */
+      aspect-ratio: 1;
+      padding: 8px;
+      text-wrap: wrap;
+    }
+  
+    &.lzr-solid {
+      border: 1px solid var(--color--fg-default);
+      background-color: var(--color--fg-default);
+      color: var(--color--bg-default);
+  
+      .lzr-icon {
+        path { fill: var(--color--bg-default); }
+      }
+  
+      @media (pointer: fine) {
+        &:hover {
+          border: 1px solid var(--color--fg-default--hover);
+          background-color: var(--color--fg-default--hover);
+          color: var(--color--bg-default);
+        }
+      }
+      &:active {
+        border: 1px solid var(--color--fg-default--active);
+        background-color: var(--color--fg-default--active);
+        color: var(--color--bg-default);
+        outline: 4px solid var(--color--outline--fg-default);
+      }
+  
+      &.lzr-primary {
+        border: 1px solid var(--color--primary);
+        background-color: var(--color--primary);
+        color: var(--color--on-primary);
+        .lzr-icon {
+          path { fill: var(--color--on-primary); }
+        }
+    
+        @media (pointer: fine) {
+          &:hover {
+            border: 1px solid var(--color--primary--hover);
+            background-color: var(--color--primary--hover);
+            color: var(--color--on-primary);
+          }
+        }
+        &:active {
+          border: 1px solid var(--color--primary--active);
+          background-color: var(--color--primary--active);
+          color: var(--color--on-primary);
+          outline: 4px solid var(--color--outline--primary);
+        }
+      }
+      &.lzr-success {
+        border: 1px solid var(--color--success);
+        background-color: var(--color--success);
+        color: var(--color--on-success);
+        .lzr-icon {
+          path { fill: var(--color--on-success); }
+        }
+    
+        @media (pointer: fine) {
+          &:hover {
+            border: 1px solid var(--color--success--hover);
+            background-color: var(--color--success--hover);
+            color: var(--color--on-success);
+          }
+        }
+        &:active {
+          border: 1px solid var(--color--success--active);
+          background-color: var(--color--success--active);
+          color: var(--color--on-success);
+          outline: 4px solid var(--color--outline--success);
+        }
+      }
+      &.lzr-info {
+        border: 1px solid var(--color--info);
+        background-color: var(--color--info);
+        color: var(--color--on-info);
+        .lzr-icon {
+          path { fill: var(--color--on-info); }
+        }
+    
+        @media (pointer: fine) {
+          &:hover {
+            border: 1px solid var(--color--info--hover);
+            background-color: var(--color--info--hover);
+            color: var(--color--on-info);
+          }
+        }
+        &:active {
+          border: 1px solid var(--color--info--active);
+          background-color: var(--color--info--active);
+          color: var(--color--on-info);
+          outline: 4px solid var(--color--outline--info);
+        }
+      }
+      &.lzr-error {
+        border: 1px solid var(--color--error);
+        background-color: var(--color--error);
+        color: var(--color--on-error);
+        .lzr-icon {
+          path { fill: var(--color--on-error); }
+        }
+    
+        @media (pointer: fine) {
+          &:hover {
+            border: 1px solid var(--color--error--hover);
+            background-color: var(--color--error--hover);
+            color: var(--color--on-error);
+          }
+        }
+        &:active {
+          border: 1px solid var(--color--error--active);
+          background-color: var(--color--error--active);
+          color: var(--color--on-error);
+          outline: 4px solid var(--color--outline--error);
+        }
+      }
+    }
+    
+    &.lzr-outlined {
+      border: 1px solid var(--color--fg-default);
+      background-color: transparent;
+      color: var(--color--fg-default);
+      .lzr-icon {
+        path { fill: var(--color--fg-default); }
+      }
+      @media (pointer: fine) {
+        &:hover {
+          border: 1px solid var(--color--fg-default--hover);
+          background-color: var(--color--fg-default--hover);
+          color: var(--color--bg-default);
+          .lzr-icon {
+            path { fill: var(--color--bg-default); }
+          }
+        }
+      }
+      &:active {
+        border: 1px solid var(--color--fg-default--active);
+        background-color: var(--color--fg-default--active);
+        color: var(--color--bg-default);
+        outline: 4px solid var(--color--outline--fg-default);
+        .lzr-icon {
+          path { fill: var(--color--bg-default); }
+        }
+      }
+  
+      &.lzr-primary {
+        border: 1px solid var(--color--primary);
+        background-color: transparent;
+        color: var(--color--primary);
+        .lzr-icon {
+          path { fill: var(--color--primary); }
+        }
+        @media (pointer: fine) {
+          &:hover {
+            border: 1px solid var(--color--primary--hover);
+            background-color: var(--color--primary--hover);
+            color: var(--color--on-primary);
+            .lzr-icon {
+              path { fill: var(--color--on-primary); }
+            }
+          }
+        }
+        &:active {
+          border: 1px solid var(--color--primary--active);
+          background-color: var(--color--primary--active);
+          color: var(--color--on-primary);
+          outline: 4px solid var(--color--outline--primary);
+          .lzr-icon {
+            path { fill: var(--color--on-primary); }
+          }
+        }
+      }
+      &.lzr-success {
+        border: 1px solid var(--color--success);
+        background-color: transparent;
+        color: var(--color--success);
+        .lzr-icon {
+          path { fill: var(--color--success); }
+        }
+        @media (pointer: fine) {
+          &:hover {
+            border: 1px solid var(--color--success--hover);
+            background-color: var(--color--success--hover);
+            color: var(--color--on-success);
+            .lzr-icon {
+              path { fill: var(--color--on-success); }
+            }
+          }
+        }
+        &:active {
+          border: 1px solid var(--color--success--active);
+          background-color: var(--color--success--active);
+          color: var(--color--on-success);
+          outline: 4px solid var(--color--outline--success);
+          .lzr-icon {
+            path { fill: var(--color--on-success); }
+          }
+        }
+      }
+      &.lzr-info {
+        border: 1px solid var(--color--info);
+        background-color: transparent;
+        color: var(--color--info);
+        .lzr-icon {
+          path { fill: var(--color--info); }
+        }
+        @media (pointer: fine) {
+          &:hover {
+            border: 1px solid var(--color--info--hover);
+            background-color: var(--color--info--hover);
+            color: var(--color--on-info);
+            .lzr-icon {
+              path { fill: var(--color--on-info); }
+            }
+          }
+        }
+        &:active {
+          border: 1px solid var(--color--info--active);
+          background-color: var(--color--info--active);
+          color: var(--color--on-info);
+          outline: 4px solid var(--color--outline--info);
+          .lzr-icon {
+            path { fill: var(--color--on-info); }
+          }
+        }
+      }
+      &.lzr-error {
+        border: 1px solid var(--color--error);
+        background-color: transparent;
+        color: var(--color--error);
+        .lzr-icon {
+          path { fill: var(--color--error); }
+        }
+        @media (pointer: fine) {
+          &:hover {
+            border: 1px solid var(--color--error--hover);
+            background-color: var(--color--error--hover);
+            color: var(--color--on-error);
+            .lzr-icon {
+              path { fill: var(--color--on-error); }
+            }
+          }
+        }
+        &:active {
+          border: 1px solid var(--color--error--active);
+          background-color: var(--color--error--active);
+          color: var(--color--on-error);
+          outline: 4px solid var(--color--outline--error);
+          .lzr-icon {
+            path { fill: var(--color--on-error); }
+          }
+        }
+      }
+    }
+  
+    &.lzr-flat {
+      border: 1px solid transparent;
+      background-color: transparent;
+      color: var(--color--fg-default);
+      .lzr-icon {
+        path { fill: var(--color--fg-default); }
+      }
+  
+      @media (pointer: fine) {
+        &:hover {
+          border: 1px solid transparent;
+          background-color: var(--color--bg-default--alpha);
+          color: var(--color--fg-default);
+          .lzr-icon {
+            path { fill: var(--color--fg-default); }
+          }
+        }
+      }
+      &:active {
+        border: 1px solid transparent;
+        background-color: var(--color--bg-default--alpha);
+        color: var(--color--fg-default);
+        outline: 4px solid var(--color--outline--fg-default);
+        .lzr-icon {
+          path { fill: var(--color--fg-default); }
+        }
+      }
+  
+      &.lzr-primary {
+        border: 1px solid transparent;
+        background-color: transparent;
+        color: var(--color--primary);
+        .lzr-icon {
+          path { fill: var(--color--primary); }
+        }
+  
+        @media (pointer: fine) {
+          &:hover {
+            border: 1px solid transparent;
+            background-color: var(--color--primary--alpha);
+            color: var(--color--primary);
+            .lzr-icon {
+              path { fill: var(--color--primary); }
+            }
+          }
+        }
+        &:active {
+          border: 1px solid transparent;
+          background-color: var(--color--primary--alpha);
+          color: var(--color--primary);
+          outline: 4px solid var(--color--outline--primary);
+          .lzr-icon {
+            path { fill: var(--color--primary); }
+          }
+        }
+      }
+      &.lzr-success {
+        border: 1px solid transparent;
+        background-color: transparent;
+        color: var(--color--success);
+        .lzr-icon {
+          path { fill: var(--color--success); }
+        }
+  
+        @media (pointer: fine) {
+          &:hover {
+            border: 1px solid transparent;
+            background-color: var(--color--success--alpha);
+            color: var(--color--success);
+            .lzr-icon {
+              path { fill: var(--color--success); }
+            }
+          }
+        }
+        &:active {
+          border: 1px solid transparent;
+          background-color: var(--color--success--alpha);
+          color: var(--color--success);
+          outline: 4px solid var(--color--outline--success);
+          .lzr-icon {
+            path { fill: var(--color--success); }
+          }
+        }
+      }
+      &.lzr-info {
+        border: 1px solid transparent;
+        background-color: transparent;
+        color: var(--color--info);
+        .lzr-icon {
+          path { fill: var(--color--info); }
+        }
+  
+        @media (pointer: fine) {
+          &:hover {
+            border: 1px solid transparent;
+            background-color: var(--color--info--alpha);
+            color: var(--color--info);
+            .lzr-icon {
+              path { fill: var(--color--info); }
+            }
+          }
+        }
+        &:active {
+          border: 1px solid transparent;
+          background-color: var(--color--info--alpha);
+          color: var(--color--info);
+          outline: 4px solid var(--color--outline--info);
+          .lzr-icon {
+            path { fill: var(--color--info); }
+          }
+        }
+      }
+      &.lzr-error {
+        border: 1px solid transparent;
+        background-color: transparent;
+        color: var(--color--error);
+        .lzr-icon {
+          path { fill: var(--color--error); }
+        }
+  
+        @media (pointer: fine) {
+          &:hover {
+            border: 1px solid transparent;
+            background-color: var(--color--error--alpha);
+            color: var(--color--error);
+            .lzr-icon {
+              path { fill: var(--color--error); }
+            }
+          }
+        }
+        &:active {
+          border: 1px solid transparent;
+          background-color: var(--color--error--alpha);
+          color: var(--color--error);
+          outline: 4px solid var(--color--outline--error);
+          .lzr-icon {
+            path { fill: var(--color--error); }
+          }
+        }
+      }
+    }
+  }
+
+  input[type="file"].lzr-button {
+    color: transparent;
+
+    @media (pointer: fine) {
+      &:hover {
+        color: transparent;
+      }
+    }
+    &:active {
+      color: transparent;
+    }
+  
+    &.lzr-solid {
+      color: transparent;
+  
+      @media (pointer: fine) {
+        &:hover {
+          color: transparent;
+        }
+      }
+      &:active {
+        color: transparent;
+      }
+  
+      &.lzr-primary {
+        color: transparent;
+    
+        @media (pointer: fine) {
+          &:hover {
+            color: transparent;
+          }
+        }
+        &:active {
+          color: transparent;
+        }
+      }
+      &.lzr-success {
+        color: transparent;
+    
+        @media (pointer: fine) {
+          &:hover {
+            color: transparent;
+          }
+        }
+        &:active {
+          color: transparent;
+        }
+      }
+      &.lzr-info {
+        color: transparent;
+    
+        @media (pointer: fine) {
+          &:hover {
+            color: transparent;
+          }
+        }
+        &:active {
+          color: transparent;
+        }
+      }
+      &.lzr-error {
+        color: transparent;
+    
+        @media (pointer: fine) {
+          &:hover {
+            color: transparent;
+          }
+        }
+        &:active {
+          color: transparent;
+        }
+      }
+    }
+    
+    &.lzr-outlined {
+      color: transparent;
+
+      @media (pointer: fine) {
+        &:hover {
+          color: transparent;
+        }
+      }
+      &:active {
+        color: transparent;
+      }
+  
+      &.lzr-primary {
+        color: transparent;
+
+        @media (pointer: fine) {
+          &:hover {
+            color: transparent;
+          }
+        }
+        &:active {
+          color: transparent;
+        }
+      }
+      &.lzr-success {
+        color: transparent;
+
+        @media (pointer: fine) {
+          &:hover {
+            color: transparent;
+          }
+        }
+        &:active {
+          color: transparent;
+        }
+      }
+      &.lzr-info {
+        color: transparent;
+
+        @media (pointer: fine) {
+          &:hover {
+            color: transparent;
+          }
+        }
+        &:active {
+          color: transparent;
+        }
+      }
+      &.lzr-error {
+        color: transparent;
+
+        @media (pointer: fine) {
+          &:hover {
+            color: transparent;
+          }
+        }
+        &:active {
+          color: transparent;
+        }
+      }
+    }
+  
+    &.lzr-flat {
+      color: transparent;
+  
+      @media (pointer: fine) {
+        &:hover {
+          color: transparent;
+        }
+      }
+      &:active {
+        color: transparent;
+      }
+  
+      &.lzr-primary {
+        color: transparent;
+  
+        @media (pointer: fine) {
+          &:hover {
+            color: transparent;
+          }
+        }
+        &:active {
+          color: transparent;
+        }
+      }
+      &.lzr-success {
+        color: transparent;
+  
+        @media (pointer: fine) {
+          &:hover {
+            color: transparent;
+          }
+        }
+        &:active {
+          color: transparent;
+        }
+      }
+      &.lzr-info {
+        color: transparent;
+  
+        @media (pointer: fine) {
+          &:hover {
+            color: transparent;
+          }
+        }
+        &:active {
+          color: transparent;
+        }
+      }
+      &.lzr-error {
+        color: transparent;
+  
+        @media (pointer: fine) {
+          &:hover {
+            color: transparent;
+          }
+        }
+        &:active {
+          color: transparent;
+        }
+      }
+    }
+
+    &::file-selector-button {
+      opacity: 1;
+    }
+  }
+
+  /* ==== BASE */
+  input[type="file"].lzr-button::file-selector-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    margin: 0;
+    border-radius: var(--border-radius--button);
+    -webkit-tap-highlight-color: transparent;
+    
+    font-family: var(--font-family--default);
+    font-size: var(--font-size--default);
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+  
+    border: 1px solid var(--color--bg-default);
+    background-color: var(--color--bg-default);
+    color: var(--color--fg-default);
+    transition: background-color .15s linear, border-color .15s linear, color .15s linear;
+
+    &.lzr-pill {
+      padding: 8px 18px;
+      border-radius: 500px;
+    }
+  
+    &.lzr-round {
+      height: max-content;
+      aspect-ratio: 1;
+      padding: 8px;
+      border-radius: 500px;
+      text-wrap: wrap;
+    }
+  
+    &.lzr-square {
+      height: max-content;
+      aspect-ratio: 1;
+      padding: 8px;
+      text-wrap: wrap;
+    }
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button::file-selector-button:hover {
+      border: 1px solid var(--color--bg-default--hover);
+      background-color: var(--color--bg-default--hover);
+      cursor: pointer;
+    }
+  }
+  input[type="file"].lzr-button::file-selector-button:active {
+    border: 1px solid var(--color--bg-default--active);
+    background-color: var(--color--bg-default--active);
+    cursor: pointer;
+    outline: 4px solid var(--color--outline--default);
+  }
+  
+  /* ==== SOLID ============================================================ */
+  input[type="file"].lzr-button.lzr-solid::file-selector-button {
+    border: 1px solid var(--color--fg-default);
+    background-color: var(--color--fg-default);
+    color: var(--color--bg-default);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-solid::file-selector-button:hover {
+      border: 1px solid var(--color--fg-default--hover);
+      background-color: var(--color--fg-default--hover);
+      color: var(--color--bg-default);
+    }
+  }
+  input[type="file"].lzr-button.lzr-solid::file-selector-button:active {
+    border: 1px solid var(--color--fg-default--active);
+    background-color: var(--color--fg-default--active);
+    color: var(--color--bg-default);
+    outline: 4px solid var(--color--outline--fg-default);
+  }
+  /* -------- Primary ------------------------------------------------------ */
+  input[type="file"].lzr-button.lzr-solid.lzr-primary::file-selector-button{
+    border: 1px solid var(--color--primary);
+    background-color: var(--color--primary);
+    color: var(--color--on-primary);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-solid.lzr-primary::file-selector-button:hover {
+      border: 1px solid var(--color--primary--hover);
+      background-color: var(--color--primary--hover);
+      color: var(--color--on-primary);
+    }
+  }
+  input[type="file"].lzr-button.lzr-solid.lzr-primary::file-selector-button:active {
+    border: 1px solid var(--color--primary--active);
+    background-color: var(--color--primary--active);
+    color: var(--color--on-primary);
+    outline: 4px solid var(--color--outline--primary);
+  }
+  /* -------- Success */
+  input[type="file"].lzr-button.lzr-solid.lzr-success::file-selector-button{
+    border: 1px solid var(--color--success);
+    background-color: var(--color--success);
+    color: var(--color--on-success);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-solid.lzr-success::file-selector-button:hover {
+      border: 1px solid var(--color--success--hover);
+      background-color: var(--color--success--hover);
+      color: var(--color--on-success);
+    }
+  }
+  input[type="file"].lzr-button.lzr-solid.lzr-success::file-selector-button:active {
+    border: 1px solid var(--color--success--active);
+    background-color: var(--color--success--active);
+    color: var(--color--on-success);
+    outline: 4px solid var(--color--outline--success);
+  }
+  /* -------- Info */
+  input[type="file"].lzr-button.lzr-solid.lzr-info::file-selector-button{
+    border: 1px solid var(--color--info);
+    background-color: var(--color--info);
+    color: var(--color--on-info);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-solid.lzr-info::file-selector-button:hover {
+      border: 1px solid var(--color--info--hover);
+      background-color: var(--color--info--hover);
+      color: var(--color--on-info);
+    }
+  }
+  input[type="file"].lzr-button.lzr-solid.lzr-info::file-selector-button:active {
+    border: 1px solid var(--color--info--active);
+    background-color: var(--color--info--active);
+    color: var(--color--on-info);
+    outline: 4px solid var(--color--outline--info);
+  }
+  /* -------- Error */
+  input[type="file"].lzr-button.lzr-solid.lzr-error::file-selector-button{
+    border: 1px solid var(--color--error);
+    background-color: var(--color--error);
+    color: var(--color--on-error);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-solid.lzr-error::file-selector-button:hover {
+      border: 1px solid var(--color--error--hover);
+      background-color: var(--color--error--hover);
+      color: var(--color--on-error);
+    }
+  }
+  input[type="file"].lzr-button.lzr-solid.lzr-error::file-selector-button:active {
+    border: 1px solid var(--color--error--active);
+    background-color: var(--color--error--active);
+    color: var(--color--on-error);
+    outline: 4px solid var(--color--outline--error);
+  }
+  
+  /* ==== OUTLINED ========================================================= */
+  input[type="file"].lzr-button.lzr-outlined::file-selector-button {
+    border: 1px solid var(--color--fg-default);
+    background-color: transparent;
+    color: var(--color--fg-default);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-outlined::file-selector-button:hover {
+      border: 1px solid var(--color--fg-default--hover);
+      background-color: var(--color--fg-default--hover);
+      color: var(--color--bg-default);
+    }
+  }
+  input[type="file"].lzr-button.lzr-outlined::file-selector-button:active {
+    border: 1px solid var(--color--fg-default--active);
+    background-color: var(--color--fg-default--active);
+    color: var(--color--bg-default);
+    outline: 4px solid var(--color--outline--fg-default);
+  }
+  /* -------- Primary ------------------------------------------------------ */
+  input[type="file"].lzr-button.lzr-outlined.lzr-primary::file-selector-button {
+    border: 1px solid var(--color--primary);
+    background-color: transparent;
+    color: var(--color--primary);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-outlined.lzr-primary::file-selector-button:hover {
+      border: 1px solid var(--color--primary--hover);
+      background-color: var(--color--primary--hover);
+      color: var(--color--on-primary);
+    }
+  }
+  input[type="file"].lzr-button.lzr-outlined.lzr-primary::file-selector-button:active {
+    border: 1px solid var(--color--primary--active);
+    background-color: var(--color--primary--active);
+    color: var(--color--on-primary);
+    outline: 4px solid var(--color--outline--primary);
+  }
+  /* -------- Success ------------------------------------------------------ */
+  input[type="file"].lzr-button.lzr-outlined.lzr-success::file-selector-button {
+    border: 1px solid var(--color--success);
+    background-color: transparent;
+    color: var(--color--success);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-outlined.lzr-success::file-selector-button:hover {
+      border: 1px solid var(--color--success--hover);
+      background-color: var(--color--success--hover);
+      color: var(--color--on-success);
+    }
+  }
+  input[type="file"].lzr-button.lzr-outlined.lzr-success::file-selector-button:active {
+    border: 1px solid var(--color--success--active);
+    background-color: var(--color--success--active);
+    color: var(--color--on-success);
+    outline: 4px solid var(--color--outline--success);
+  }
+  /* -------- Info --------------------------------------------------------- */
+  input[type="file"].lzr-button.lzr-outlined.lzr-info::file-selector-button {
+    border: 1px solid var(--color--info);
+    background-color: transparent;
+    color: var(--color--info);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-outlined.lzr-info::file-selector-button:hover {
+      border: 1px solid var(--color--info--hover);
+      background-color: var(--color--info--hover);
+      color: var(--color--on-info);
+    }
+  }
+  input[type="file"].lzr-button.lzr-outlined.lzr-info::file-selector-button:active {
+    border: 1px solid var(--color--info--active);
+    background-color: var(--color--info--active);
+    color: var(--color--on-info);
+    outline: 4px solid var(--color--outline--info);
+  }
+  /* -------- Error -------------------------------------------------------- */
+  input[type="file"].lzr-button.lzr-outlined.lzr-error::file-selector-button {
+    border: 1px solid var(--color--error);
+    background-color: transparent;
+    color: var(--color--error);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-outlined.lzr-error::file-selector-button:hover {
+      border: 1px solid var(--color--error--hover);
+      background-color: var(--color--error--hover);
+      color: var(--color--on-error);
+    }
+  }
+  input[type="file"].lzr-button.lzr-outlined.lzr-error::file-selector-button:active {
+    border: 1px solid var(--color--error--active);
+    background-color: var(--color--error--active);
+    color: var(--color--on-error);
+    outline: 4px solid var(--color--outline--error);
+  }
+  
+  /* ==== FLAT ============================================================= */
+  input[type="file"].lzr-button.lzr-flat::file-selector-button {
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: var(--color--fg-default);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-flat::file-selector-button:hover {
+      border: 1px solid transparent;
+      background-color: var(--color--bg-default--alpha);
+      color: var(--color--fg-default);
+      .lzr-icon {
+        path { fill: var(--color--fg-default); }
+      }
+    }
+  }
+  input[type="file"].lzr-button.lzr-flat::file-selector-button:active {
+    border: 1px solid transparent;
+    background-color: var(--color--bg-default--alpha);
+    color: var(--color--fg-default);
+    outline: 4px solid var(--color--outline--fg-default);
+  }
+  /* -------- Primary ------------------------------------------------------ */
+  input[type="file"].lzr-button.lzr-flat.lzr-primary::file-selector-button {
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: var(--color--primary);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-flat.lzr-primary::file-selector-button:hover {
+      border: 1px solid transparent;
+      background-color: var(--color--primary--alpha);
+      color: var(--color--primary);
+    }
+  }
+  input[type="file"].lzr-button.lzr-flat.lzr-primary::file-selector-button:active {
+    border: 1px solid transparent;
+    background-color: var(--color--primary--alpha);
+    color: var(--color--primary);
+    outline: 4px solid var(--color--outline--primary);
+  }
+  /* -------- Success ------------------------------------------------------ */
+  input[type="file"].lzr-button.lzr-flat.lzr-success::file-selector-button {
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: var(--color--success);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-flat.lzr-success::file-selector-button:hover {
+      border: 1px solid transparent;
+      background-color: var(--color--success--alpha);
+      color: var(--color--success);
+    }
+  }
+  input[type="file"].lzr-button.lzr-flat.lzr-success::file-selector-button:active {
+    border: 1px solid transparent;
+    background-color: var(--color--success--alpha);
+    color: var(--color--success);
+    outline: 4px solid var(--color--outline--success);
+  }
+  /* -------- Info --------------------------------------------------------- */
+  input[type="file"].lzr-button.lzr-flat.lzr-info::file-selector-button {
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: var(--color--info);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-flat.lzr-info::file-selector-button:hover {
+      border: 1px solid transparent;
+      background-color: var(--color--info--alpha);
+      color: var(--color--info);
+    }
+  }
+  input[type="file"].lzr-button.lzr-flat.lzr-info::file-selector-button:active {
+    border: 1px solid transparent;
+    background-color: var(--color--info--alpha);
+    color: var(--color--info);
+    outline: 4px solid var(--color--outline--info);
+  }
+  /* -------- Error -------------------------------------------------------- */
+  input[type="file"].lzr-button.lzr-flat.lzr-error::file-selector-button {
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: var(--color--error);
+  }
+  @media (pointer: fine) {
+    input[type="file"].lzr-button.lzr-flat.lzr-error::file-selector-button:hover {
+      border: 1px solid transparent;
+      background-color: var(--color--error--alpha);
+      color: var(--color--error);
+    }
+  }
+  input[type="file"].lzr-button.lzr-flat.lzr-error::file-selector-button:active {
+    border: 1px solid transparent;
+    background-color: var(--color--error--alpha);
+    color: var(--color--error);
+    outline: 4px solid var(--color--outline--error);
+  }
+} 

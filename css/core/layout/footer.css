@@ -1,0 +1,17 @@
+.lzr {
+
+  .lzr-footer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100%; width: 100%; max-width: 100%;
+    min-height: var(--height--footer); height: var(--height--footer); max-height: var(--height--footer);
+    background-color: var(--color--bg-default);
+    color: var(--color--fg-default);
+    /* padding: 8px var(--horizontal-padding); */
+    gap: 8px;
+    font-weight: 500;
+
+  }
+}

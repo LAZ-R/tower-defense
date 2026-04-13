@@ -1,0 +1,36 @@
+.lzr {
+  .header-menu {
+    --display: if(
+    /* PHONE */ media(width < 767px):  none;
+    /* TABLET */media(width < 1280px): none;
+    /* LAPTOP */media(width < 1920px): flex;
+    /* DESKTOP */ else:                flex;
+    );
+
+    display: var(--display);
+    justify-content: flex-end;
+    width: 100%;
+    
+    /* background-color: magenta; */
+    overflow: visible;
+    gap: 8px;
+
+    .header-menu-button {
+      font-weight: 500;
+      opacity: .5;
+
+      @media (pointer: fine) {
+        &:hover {
+          opacity: .67;
+        }
+      }
+      &:active {
+        opacity: .83;
+      }
+
+      &.selected {
+        opacity: 1;
+      }
+    }
+  }
+}

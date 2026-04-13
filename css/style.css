@@ -1,0 +1,65 @@
+@import url("./core/reset.css");
+@import url("./core/variables.css");
+
+/* Text */
+@import url("./core/text/text.css");
+
+/* Layout */
+@import url("./core/layout/body.css");
+@import url("./core/layout/header.css");
+@import url("./core/layout/main.css");
+@import url("./core/layout/footer.css");
+@import url("./core/layout/page.css");
+
+/* Input */
+@import url("./core/forms/button.css");
+@import url("./core/forms/checkbox.css");
+@import url("./core/forms/input.css");
+@import url("./core/forms/radio.css");
+@import url("./core/forms/select.css");
+@import url("./core/forms/switch.css");
+
+/* Menu */
+@import url("./core/menu/menu.css");
+@import url("./core/menu/tab-bar.css");
+@import url("./core/menu/side-bar.css");
+@import url("./core/menu/header-menu.css");
+
+/* Misc */
+@import url("./core/misc/crt.css");
+@import url("./core/misc/map.css");
+@import url("./core/misc/code.css");
+
+@import url("./core/toast.css");
+@import url("./core/icon.css");
+@import url("./core/drawer.css");
+@import url("./core/utils.css");
+@import url("./core/separator.css");
+@import url("./core/pwa-install.css");
+
+/* Views */
+@import url("../js/views/homepage/homepage.view.css");
+@import url("../js/views/css-components/css-components.view.css");
+@import url("../js/views/settings/settings.view.css");
+@import url("../js/views/not-found/not-found.view.css");
+
+:root { view-transition-name: none; }    /* pas de transition globale */
+header { view-transition-name: header; } /* si tu veux animer le header */
+main   { view-transition-name: main; }   /* si tu veux animer le main */
+footer { view-transition-name: footer; } /* si tu veux animer le footer */
+.tab-bar { view-transition-name: tab-bar; }
+
+/* Slide horizontale */
+/* ::view-transition-old(main) { animation: slideOutLeft 0.3s ease-in; }
+::view-transition-new(main) { animation: slideInRight 0.3s ease-out; }
+
+@keyframes slideOutLeft  { to { transform: translateX(-100%); opacity: 0; } }
+@keyframes slideInRight  { from { transform: translateX(100%); opacity: 0; } } */
+
+#scrollButton {
+  position: fixed;
+  display: none;
+  bottom: calc(var(--height--tab-bar) + 16px);
+  right: var(--horizontal-padding);
+  opacity: .5;
+}

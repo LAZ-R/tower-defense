@@ -1,0 +1,85 @@
+.lzr {
+
+  .lzr-toast-container {
+    display: none;
+  }
+  
+  .lzr-toast {
+    position: fixed;
+    bottom: -40px;
+    right: var(--horizontal-padding);
+  
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-width: fit-content;
+    padding: 8px 16px;
+    gap: 16px;
+    border-radius: var(--border-radius--default);
+    background-color: var(--color--fg-default);
+    box-shadow: var(--box-shadow--soft);
+
+    .lzr-icon > path { fill: var(--color--bg-default); }
+  
+    span {
+      --max-width: if(
+        /* PHONE */ media(width < 767px):  calc(100svw - (2 * var(--horizontal-padding)) - (2 * 16px) - 16px - 20px);
+        /* TABLET */media(width < 1280px): 33svw;
+        /* LAPTOP */media(width < 1920px): 25svw;
+        /* DESKTOP */ else:                20svw;
+      );
+      font-size: var(--font-size--default);
+      text-align: start;
+      font-weight: 400;
+      max-width: var(--max-width);
+      color: var(--color--bg-default);
+    }
+    
+    &.lzr-primary {
+      background-color: var(--color--primary);
+      span { color: var(--color--on-primary); }
+      .lzr-icon > path { fill: var(--color--on-primary); }
+    }
+    &.lzr-success {
+      background-color: var(--color--success);
+      span { color: var(--color--on-success); }
+      .lzr-icon > path { fill: var(--color--on-success); }
+    }
+    &.lzr-info {
+      background-color: var(--color--info);
+      span { color: var(--color--on-info); }
+      .lzr-icon > path { fill: var(--color--on-info); }
+    }
+    &.lzr-error {
+      background-color: var(--color--error);
+      span { color: var(--color--on-error); }
+      .lzr-icon > path { fill: var(--color--on-error); }
+    }
+  
+    &.lzr-toast-in {
+      animation: toast-in .2s forwards ease-out;
+    }
+    &.lzr-toast-out {
+      animation: toast-out .2s forwards ease-in;
+    }
+    
+  }
+}
+
+@-webkit-keyframes toast-in {
+  0% { bottom: -40px; }
+  100% { bottom: calc(var(--height--tab-bar) + 16px); }
+}
+@keyframes toast-in {
+  0% { bottom: -40px; }
+  100% { bottom: calc(var(--height--tab-bar) + 16px); }
+}
+
+@-webkit-keyframes toast-out {
+  0% { bottom: calc(var(--height--tab-bar) + 16px); }
+  100% { bottom: -40px; }
+}
+@keyframes toast-out {
+  0% { bottom: calc(var(--height--tab-bar) + 16px); }
+  100% { bottom: -40px; }
+}

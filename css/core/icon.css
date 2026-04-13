@@ -1,0 +1,77 @@
+.lzr {
+
+  .lzr-icon {
+    --color: var(--color--fg-default);
+  
+    --size--xxs: 8px;
+    --size--xs: 12px;
+    --size--s: 16px;
+    --size--m: 20px;
+    --size--l: 24px;
+    --size--xl: 36px;
+    --size--xxl: 48px;
+  
+    width: var(--size--m);
+    height: var(--size--m);
+  
+    path { fill: var(--color); }
+  
+    
+    /* SIZES */
+    &.xxs { 
+      min-width: var(--size--xxs); width: var(--size--xxs); max-width: var(--size--xxs);
+      min-height: var(--size--xxs); height: var(--size--xxs); max-height: var(--size--xxs); 
+    }
+    &.xs  {
+      min-width: var(--size--xs); width: var(--size--xs); max-width: var(--size--xs);
+      min-height: var(--size--xs); height: var(--size--xs); max-height: var(--size--xs); 
+    }
+    &.s   { 
+      min-width: var(--size--s); width: var(--size--s); max-width: var(--size--s);
+      min-height: var(--size--s); height: var(--size--s); max-height: var(--size--s);  
+    }
+    &.m   {
+      min-width: var(--size--m); width: var(--size--m); max-width: var(--size--m);
+      min-height: var(--size--m); height: var(--size--m); max-height: var(--size--m);  
+    }
+    &.l   { 
+      min-width: var(--size--l); width: var(--size--l); max-width: var(--size--l);
+      min-height: var(--size--l); height: var(--size--l); max-height: var(--size--l);  
+    }
+    &.xl  { 
+      min-width: var(--size--xl); width: var(--size--xl); max-width: var(--size--xl);
+      min-height: var(--size--xl); height: var(--size--xl); max-height: var(--size--xl);  
+    }
+    &.xxl  { 
+      min-width: var(--size--xxl); width: var(--size--xxl); max-width: var(--size--xxl);
+      min-height: var(--size--xxl); height: var(--size--xxl); max-height: var(--size--xxl);  
+    }
+  
+    &.active { opacity: 1; }
+    &.inactive { opacity: .25; }
+  }
+
+  .lzr-icon-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--color--default-light);
+    padding: 8px;
+    border-radius: var(--border-radius--default);
+    min-width: 60px;
+    color: var(--color--fg-default);
+    text-align: center;
+
+    &.fixed {
+      --width: if(
+        /* PHONE */ media(width < 767px):  calc((100svw - (2 * var(--horizontal-padding)) - (2 * 16px)) / 3);
+        /* TABLET */media(width < 1280px): calc((100svw - (2 * var(--horizontal-padding)) - (3 * 16px)) / 4);
+        /* LAPTOP */media(width < 1920px): calc((100svw - (2 * var(--horizontal-padding)) - (4 * 16px)) / 5);
+        /* DESKTOP */ else:                calc((100svw - (2 * var(--horizontal-padding)) - (5 * 16px)) / 6);
+      );
+      min-width: var(--width); width: var(--width); max-width: var(--width);
+    }
+  }
+}

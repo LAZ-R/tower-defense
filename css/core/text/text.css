@@ -1,0 +1,66 @@
+:root {
+  --font-family--user: 'inter-var'; /* inter-var | open-dyslexic */
+}
+
+/* ==========================
+ Inter
+===========================*/
+@font-face { font-family: "inter-var"; src: url("../../../assets/fonts/inter/Inter.var.woff2") format("woff2"); }
+@font-face { font-family: "inter-var-italic"; src: url("../../../assets/fonts/inter/Inter-italic.var.woff2") format("woff2"); }
+
+
+/* ==========================
+Consolas
+===========================*/
+@font-face { font-family: "consolas"; src: url("../../../assets/fonts/consolas/Consolas.woff2") format("woff2"); }
+
+/* ==========================
+ Inter
+===========================*/
+@font-face { font-family: "open-dyslexic"; src: url("../../../assets/fonts/open-dyslexic/OpenDyslexic-Regular.woff2") format("woff2"); }
+@font-face { font-family: "open-dyslexic-bold"; src: url("../../../assets/fonts/open-dyslexic/OpenDyslexic-Bold.woff2") format("woff2"); }
+
+/* ---------------------------------------------------------------------- */
+
+.lzr { 
+  --font-family--default: var(--font-family--user), sans-serif;
+  --font-size--default: 16px;
+  font-family: var(--font-family--default);
+  font-weight: 300;
+  font-size: var(--font-size--default);
+  color: var(--color--fg-default);
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-size: var(--font-size);
+    line-height: calc(var(--font-size) + (var(--font-size) / 4));
+    margin-bottom: calc(var(--font-size) / 2);
+  }
+
+  h1, h2, h3 {
+    color: var(--color--fg-default);
+  }
+
+  h4, h5, h6 {
+    color: var(--color--fg-default);
+  }
+
+  h1 { --font-size: 26px; font-weight: 700; }
+  h2 { --font-size: 24px; font-weight: 600; }
+  h3 { --font-size: 22px; font-weight: 500; }
+  h4 { --font-size: 20px; font-weight: 400; }
+  h5 { --font-size: 18px; font-weight: 400; }
+  h6 { --font-size: 16px; font-weight: 400; }
+
+  p {
+    margin-top: 0;
+  }
+
+  .txt-primary { color: var(--color--primary); }
+  .txt-success { color: var(--color--success); }
+  .txt-error { color: var(--color--error); }
+
+  strong {
+    font-weight: 600;
+  }
+}

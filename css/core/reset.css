@@ -1,0 +1,30 @@
+.lzr {
+  
+  * {
+    box-sizing: border-box;
+    user-select: none;
+    /* scroll-behavior: smooth; */
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+  }
+  
+  p {
+    margin: 0;
+  }
+
+  hr {
+    min-height: 1px; height: 1px; max-height: 1px;
+    border: none;
+    width: 100%;
+    background-color: gray;
+    margin: 16px 0;
+  }
+
+  ul {
+    margin: 0;
+    padding-inline-start: 20px;
+    margin-bottom: 16px;
+  }
+}

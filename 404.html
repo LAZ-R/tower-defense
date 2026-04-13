@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Redirecting…</title>
+  <script>
+    // URL que l’utilisateur voulait (ex: /mon-repo/settings?x=1#y)
+    const wanted = location.pathname + location.search + location.hash;
+    sessionStorage.setItem('spa:redirect', wanted);
+
+    // Déduit /<repo>/ à partir de /<repo>/quelquechose
+    const parts = location.pathname.split('/').filter(Boolean);
+    const repo = parts[0]; // "mon-repo"
+    const base = repo ? `/${repo}/` : '/';
+
+    // Redirige vers la "porte d'entrée" (index.html servira depuis là)
+    location.replace(base + 'index.html');
+  </script>
+</head>
+<body></body>
+</html>

@@ -1,0 +1,26 @@
+.map-viewport {
+  --map-viewport-size: 100svw;
+  min-width: var(--map-viewport-size); width: var(--map-viewport-size); max-width: var(--map-viewport-size);
+  min-height: var(--map-viewport-size); height: var(--map-viewport-size); max-height: var(--map-viewport-size);
+  overflow: hidden;
+  touch-action: none; /* important pour capter les gestes tactiles */
+  background: #111;
+}
+
+.map {
+  width: 2232px;
+  height: 2232px;
+  /* background-image: url('');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat; */
+  /* background-color: black; */
+  background: linear-gradient(315deg,rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
+  transform-origin: 0 0;
+  transition: transform 0.05s linear;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

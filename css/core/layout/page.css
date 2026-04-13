@@ -1,0 +1,17 @@
+.lzr {
+
+  .page-container {
+    --vertical-padding: if(
+      /* PHONE */ media(width < 767px):  8px;
+      /* TABLET */media(width < 1280px): 8px;
+      /* LAPTOP */media(width < 1920px): 32px;
+      /* DESKTOP */ else:                32px;
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: var(--vertical-padding) var(--horizontal-padding);
+    width: 100%;
+  }
+}

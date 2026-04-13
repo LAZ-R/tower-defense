@@ -1,0 +1,600 @@
+.lzr {
+  --theme: 'light'; /* 'dark' | 'light' | 'alternative */
+
+  /* ####################################################################### */
+  /* COLORS */
+  /* ####################################################################### */
+
+  /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+  /* BASES */
+  /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+  /* =================================================== */
+  /* BACKGROUNDS */
+  /* =================================================== */
+
+  /* ------------------------------- */
+  /* DEFAULT */
+  /* ------------------------------- */
+
+  --color--bg-default: if(
+    style(--theme: 'light'):       var(--color--bg-10); /* (0, 0%, 90%) */
+    style(--theme: 'dark'):        var(--color--bg-15); /* (0, 0%, 15%) */
+    style(--theme: 'alternative'): var(--color--bg-15); /* (0, 0%, 15%) */
+    else: #333333
+  );
+  --color--bg-default--hover: if(
+    style(--theme: 'light'):       var(--color--bg-15); /* (0, 0%, 85%) */
+    style(--theme: 'dark'):        var(--color--bg-20); /* (0, 0%, 20%) */
+    style(--theme: 'alternative'): var(--color--bg-20); /* (0, 0%, 20%) */
+    else: #333333
+  );
+  --color--bg-default--active: if(
+    style(--theme: 'light'):       var(--color--bg-20); /* (0, 0%, 80%) */
+    style(--theme: 'dark'):        var(--color--bg-25); /* (0, 0%, 25%) */
+    style(--theme: 'alternative'): var(--color--bg-25); /* (0, 0%, 25%) */
+    else: #333333
+  );
+  --color--outline--default: hsla(0, 0%, 15%, 33%); /* a variabiliser */
+  --color--bg-default--alpha: if(
+    style(--theme: 'light'):       hsla(0, 0%, 15%, .1); /* a variabiliser */
+    style(--theme: 'dark'):        hsla(0, 0%, 85%, .1); /* a variabiliser */
+    style(--theme: 'alternative'): hsla(0, 0%, 85%, .1); /* a variabiliser */
+    else: #333333
+  );
+
+  /* ------------------------------- */
+  /* ALT */
+  /* ------------------------------- */
+
+  --color--bg-html: if(
+    style(--theme: 'light'):       var(--color--bg-5);  /* (0, 0%, 95%) */
+    style(--theme: 'dark'):        var(--color--bg-10); /* (0, 0%, 10%) */
+    style(--theme: 'alternative'): var(--color--bg-10); /* (0, 0%, 10%) */
+    else: #333333
+  );
+  --color--bg-html--hover: if(
+    style(--theme: 'light'):       var(--color--bg-15); /* (0, 0%, 85%) */
+    style(--theme: 'dark'):        var(--color--bg-15); /* (0, 0%, 15%) */
+    style(--theme: 'alternative'): var(--color--bg-15); /* (0, 0%, 15%) */
+    else: #333333
+  );
+  --color--bg-html--active: if(
+    style(--theme: 'light'):       var(--color--bg-10); /* (0, 0%, 90%) */
+    style(--theme: 'dark'):        var(--color--bg-20); /* (0, 0%, 20%) */
+    style(--theme: 'alternative'): var(--color--bg-20); /* (0, 0%, 20%) */
+    else: #333333
+  );
+  --color--outline--alt: hsla(0, 0%, 15%, 33%); /* a variabiliser */
+  --color--bg-html--alpha:  hsla(0, 0%, 15%, .1); /* a variabiliser */
+
+  /* =================================================== */
+  /* FOREGROUNDS */
+  /* =================================================== */
+
+  /* ------------------------------- */
+  /* DEFAULT */
+  /* ------------------------------- */
+
+  --color--fg-default: if(
+    style(--theme: 'light'):       var(--color--fg-15); /* (0, 0%, 15%) */
+    style(--theme: 'dark'):        var(--color--fg-15); /* (0, 0%, 85%) */
+    style(--theme: 'alternative'): var(--color--fg-15); /* (0, 0%, 85%) */
+    else: #333333
+  );
+  --filter--fg-default: if(
+    style(--theme: 'light'):       brightness(0) saturate(100%) invert(8%) sepia(99%) saturate(0%) hue-rotate(247deg) brightness(91%) contrast(85%);
+    style(--theme: 'dark'):        brightness(0) saturate(100%) invert(95%) sepia(23%) saturate(7492%) hue-rotate(183deg) brightness(124%) contrast(70%); 
+    style(--theme: 'alternative'): brightness(0) saturate(100%) invert(84%) sepia(4%) saturate(229%) hue-rotate(277deg) brightness(103%) contrast(93%); 
+    else: #333333
+  );
+  --color--fg-default--hover: if(
+    style(--theme: 'light'):       var(--color--fg-5); /* (0, 0%,  5%) */
+    style(--theme: 'dark'):        var(--color--fg-5); /* (0, 0%, 95%) */
+    style(--theme: 'alternative'): var(--color--fg-5); /* (0, 0%, 95%) */
+    else: #333333
+  );
+  --color--fg-default--active: if(
+    style(--theme: 'light'):       var(--color--fg-0); /* (0, 0%,   0%) */
+    style(--theme: 'dark'):        var(--color--fg-0); /* (0, 0%, 100%) */
+    style(--theme: 'alternative'): var(--color--fg-0); /* (0, 0%, 100%) */
+    else: #333333
+  );
+  --color--outline--fg-default: hsla(0, 0%, 85%, 33%); /* a variabiliser */
+  --color--fg-default--alpha:  hsla(0, 0%, 85%, .1);   /* a variabiliser */
+
+  /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+  /* FONCTIONAL COLORS */
+  /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+  /* color: #f76e9c; */
+
+  /* =================================================== */
+  /* PRIMARY */
+  /* =================================================== */
+
+  --color--primary: if(
+    style(--theme: 'light'):       hsl(340, 50%, 45%)/* hsl(25, 100%, 36%) */;
+    style(--theme: 'dark'):        hsl(340, 90%, 70%); 
+    style(--theme: 'alternative'): hsl(177, 63%, 67%); 
+    else: #333333
+  );
+  --color--primary--hover: if(
+    style(--theme: 'light'):       hsl(340, 50%, 38%);
+    style(--theme: 'dark'):        hsl(340, 90%, 75%); 
+    style(--theme: 'alternative'): hsl(177, 63%, 72%);
+    else: #333333
+  );
+  --color--primary--active: if(
+    style(--theme: 'light'):       hsl(340, 50%, 31%);
+    style(--theme: 'dark'):        hsl(340, 90%, 80%); 
+    style(--theme: 'alternative'): hsl(177, 63%, 77%); 
+    else: #333333
+  );
+  --color--primary--alpha: if(
+    style(--theme: 'light'):       hsl(340, 50%, 45%, .1);
+    style(--theme: 'dark'):        hsl(340, 90%, 70%, .1); 
+    style(--theme: 'alternative'): hsl(177, 63%, 67%, .1); 
+    else: #333333
+  );
+  --color--outline--primary: if(
+    style(--theme: 'light'):       hsl(340, 50%, 45%, 33%);
+    style(--theme: 'dark'):        hsl(340, 90%, 70%, 33%); 
+    style(--theme: 'alternative'): hsl(177, 63%, 67%, 33%); 
+    else: #333333
+  );
+  --color--on-primary: if(
+    style(--theme: 'light'):       var(--color--fg-95);
+    style(--theme: 'dark'):        var(--color--fg-85);
+    style(--theme: 'alternative'): var(--color--fg-85);
+    else: #333333
+  );
+
+  /* =================================================== */
+  /* SUCCESS */
+  /* =================================================== */
+
+  --color--success: if(
+    style(--theme: 'light'):       hsl(120, 40%, 35%);
+    style(--theme: 'dark'):        hsl(120, 40%, 50%); 
+    style(--theme: 'alternative'): hsl(120, 40%, 46%); 
+    else: #333333
+  );
+  --color--success--hover: if(
+    style(--theme: 'light'):       hsl(120, 40%, 30%);
+    style(--theme: 'dark'):        hsl(120, 40%, 60%); 
+    style(--theme: 'alternative'): hsl(120, 40%, 51%); 
+    else: #333333
+  );
+  --color--success--active: if(
+    style(--theme: 'light'):       hsl(120, 40%, 27%);
+    style(--theme: 'dark'):        hsl(120, 40%, 65%); 
+    style(--theme: 'alternative'): hsl(120, 40%, 56%); 
+    else: #333333
+  );
+  --color--success--alpha: if(
+    style(--theme: 'light'):       hsla(120, 40%, 35%, .1);
+    style(--theme: 'dark'):        hsla(120, 40%, 50%, .1); 
+    style(--theme: 'alternative'): hsla(120, 40%, 36%, .1); 
+    else: #333333
+  );
+  --color--outline--success: if(
+    style(--theme: 'light'):       hsla(120, 40%, 35%, 33%);
+    style(--theme: 'dark'):        hsla(120, 40%, 50%, 33%); 
+    style(--theme: 'alternative'): hsla(120, 40%, 36%, 33%); 
+    else: #333333
+  );
+  --color--on-success: if(
+    style(--theme: 'light'):       var(--color--fg-95);
+    style(--theme: 'dark'):        var(--color--fg-85); 
+    style(--theme: 'alternative'): var(--color--fg-85); 
+    else: #333333
+  );
+
+  /* =================================================== */
+  /* INFO */
+  /* =================================================== */
+
+  --color--info: if(
+    style(--theme: 'light'):       hsl(220, 60%, 50%);
+    style(--theme: 'dark'):        hsl(220, 90%, 70%); 
+    style(--theme: 'alternative'): hsl(220, 80%, 65%); 
+    else: #333333
+  );
+  --color--info--hover: if(
+    style(--theme: 'light'):       hsl(220, 60%, 45%);
+    style(--theme: 'dark'):        hsl(220, 90%, 77%); 
+    style(--theme: 'alternative'): hsl(220, 80%, 70%); 
+    else: #333333
+  );
+  --color--info--active: if(
+    style(--theme: 'light'):       hsl(220, 60%, 40%);
+    style(--theme: 'dark'):        hsl(220, 90%, 80%); 
+    style(--theme: 'alternative'): hsl(220, 80%, 75%); 
+    else: #333333
+  );
+  --color--info--alpha: if(
+    style(--theme: 'light'):       hsla(220, 60%, 50%, .1);
+    style(--theme: 'dark'):        hsla(220, 90%, 70%, .1); 
+    style(--theme: 'alternative'): hsla(220, 80%, 55%, .1); 
+    else: #333333
+  );
+  --color--outline--info: if(
+    style(--theme: 'light'):       hsla(220, 60%, 50%, 33%);
+    style(--theme: 'dark'):        hsla(220, 90%, 70%, 33%); 
+    style(--theme: 'alternative'): hsla(220, 80%, 55%, 33%); 
+    else: #333333
+  );
+  --color--on-info: if(
+    style(--theme: 'light'):       var(--color--fg-95);
+    style(--theme: 'dark'):        var(--color--fg-85); 
+    style(--theme: 'alternative'): var(--color--fg-85); 
+    else: #333333
+  );
+  
+  /* =================================================== */
+  /* ERROR */
+  /* =================================================== */
+
+  --color--error: if(
+    style(--theme: 'light'):       hsl(0, 48%, 48%);
+    style(--theme: 'dark'):        hsl(0, 95%, 65%); 
+    style(--theme: 'alternative'): hsl(0, 100%, 65%); 
+    else: #333333
+  );
+  --color--error--hover: if(
+    style(--theme: 'light'):       hsl(0, 48%, 43%);
+    style(--theme: 'dark'):        hsl(0, 95%, 70%); 
+    style(--theme: 'alternative'): hsl(0, 100%, 70%); 
+    else: #333333
+  );
+  --color--error--active: if(
+    style(--theme: 'light'):       hsl(0, 48%, 38%);
+    style(--theme: 'dark'):        hsl(0, 95%, 75%); 
+    style(--theme: 'alternative'): hsl(0, 100%, 75%); 
+    else: #333333
+  );
+  --color--error--alpha: if(
+    style(--theme: 'light'):       hsla(0, 48%, 48%, .1);
+    style(--theme: 'dark'):        hsla(0, 95%, 65%, .1); 
+    style(--theme: 'alternative'): hsla(0, 48%, 48%, .1); 
+    else: #333333
+  );
+  --color--outline--error: if(
+    style(--theme: 'light'):       hsla(0, 48%, 48%, 33%);
+    style(--theme: 'dark'):        hsla(0, 95%, 65%, 33%); 
+    style(--theme: 'alternative'): hsla(0, 48%, 48%, 33%); 
+    else: #333333
+  );
+  --color--on-error: if(
+    style(--theme: 'light'):       var(--color--fg-95);
+    style(--theme: 'dark'):        var(--color--fg-85); 
+    style(--theme: 'alternative'): var(--color--fg-85); 
+    else: #333333
+  );
+  
+  /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+  /* RAW COLORS */
+  /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+  /* Background */
+  --color--bg-0:   if(
+    style(--theme: 'light'):       hsl(0, 0%, 100%);
+    style(--theme: 'dark'):        hsl(0, 0%, 0%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 0%); 
+    else: hsl(0, 0%, 0%)
+  );
+  --color--bg-5:   if(
+    style(--theme: 'light'):       hsl(0, 0%, 95%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 5%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 5%); 
+    else: hsl(0, 0%, 5%)
+  );
+  --color--bg-10:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 90%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 10%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 10%); 
+    else: hsl(0, 0%, 10%)
+  );
+  --color--bg-15:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 85%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 15%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 15%); 
+    else: hsl(0, 0%, 15%)
+  );
+  --color--bg-20:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 80%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 20%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 20%); 
+    else: hsl(0, 0%, 20%)
+  );
+  --color--bg-25:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 75%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 25%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 25%); 
+    else: hsl(0, 0%, 25%)
+  );
+  --color--bg-30:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 70%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 30%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 30%); 
+    else: hsl(0, 0%, 30%)
+  );
+  --color--bg-35:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 65%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 35%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 35%); 
+    else: hsl(0, 0%, 35%)
+  );
+  --color--bg-40:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 60%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 40%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 40%); 
+    else: hsl(0, 0%, 40%)
+  );
+  --color--bg-45:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 55%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 45%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 45%); 
+    else: hsl(0, 0%, 45%)
+  );
+  --color--bg-50:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 50%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 50%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 50%); 
+    else: hsl(0, 0%, 50%)
+  );
+  --color--bg-55:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 45%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 55%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 55%); 
+    else: hsl(0, 0%, 55%)
+  );
+  --color--bg-60:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 40%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 60%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 60%); 
+    else: hsl(0, 0%, 60%)
+  );
+  --color--bg-65:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 35%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 65%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 65%); 
+    else: hsl(0, 0%, 65%)
+  );
+  --color--bg-70:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 30%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 70%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 70%); 
+    else: hsl(0, 0%, 70%)
+  );
+  --color--bg-75:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 25%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 75%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 75%); 
+    else: hsl(0, 0%, 75%)
+  );
+  --color--bg-80:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 20%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 80%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 80%); 
+    else: hsl(0, 0%, 80%)
+  );
+  --color--bg-85:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 15%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 85%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 85%); 
+    else: hsl(0, 0%, 85%)
+  );
+  --color--bg-90:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 10%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 90%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 90%); 
+    else: hsl(0, 0%, 90%)
+  );
+  --color--bg-95:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 5%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 95%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 95%); 
+    else: hsl(0, 0%, 95%)
+  );
+  --color--bg-100: if(
+    style(--theme: 'light'):       hsl(0, 0%, 0%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 100%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 100%); 
+    else: hsl(0, 0%, 100%)
+  );
+
+  /* Foreground */
+  --color--fg-0:   if(
+    style(--theme: 'light'):       hsl(0, 0%, 0%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 100%);
+    style(--theme: 'alternative'): hsl(192, 19%, 100%);
+    else: hsl(0, 0%, 100%)
+  );
+  --color--fg-5:   if(
+    style(--theme: 'light'):       hsl(0, 0%, 5%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 95%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 95%); 
+    else: hsl(0, 0%, 95%)
+  );
+  --color--fg-10:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 10%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 90%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 90%); 
+    else: hsl(0, 0%, 90%)
+  );
+  --color--fg-15:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 15%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 85%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 85%); 
+    else: hsl(0, 0%, 85%)
+  );
+  --color--fg-20:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 20%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 80%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 80%); 
+    else: hsl(0, 0%, 80%)
+  );
+  --color--fg-25:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 25%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 75%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 75%); 
+    else: hsl(0, 0%, 75%)
+  );
+  --color--fg-30:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 30%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 70%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 70%); 
+    else: #333333
+  );
+  --color--fg-35:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 35%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 65%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 65%); 
+    else: hsl(0, 0%, 70%)
+  );
+  --color--fg-40:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 40%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 60%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 60%); 
+    else: hsl(0, 0%, 60%)
+  );
+  --color--fg-45:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 45%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 55%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 55%); 
+    else: hsl(0, 0%, 55%)
+  );
+  --color--fg-50:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 50%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 50%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 50%); 
+    else: hsl(0, 0%, 50%)
+  );
+  --color--fg-55:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 55%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 45%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 45%); 
+    else: hsl(0, 0%, 45%)
+  );
+  --color--fg-60:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 60%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 40%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 40%); 
+    else: hsl(0, 0%, 40%)
+  );
+  --color--fg-65:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 65%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 35%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 35%); 
+    else: hsl(0, 0%, 35%)
+  );
+  --color--fg-70:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 70%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 30%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 30%); 
+    else: hsl(0, 0%, 30%)
+  );
+  --color--fg-75:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 75%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 25%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 25%); 
+    else: hsl(0, 0%, 25%)
+  );
+  --color--fg-80:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 80%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 20%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 20%); 
+    else: hsl(0, 0%, 20%)
+  );
+  --color--fg-85:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 85%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 15%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 15%); 
+    else: hsl(0, 0%, 15%)
+  );
+  --color--fg-90:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 90%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 10%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 10%); 
+    else: hsl(0, 0%, 10%)
+  );
+  --color--fg-95:  if(
+    style(--theme: 'light'):       hsl(0, 0%, 95%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 5%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 5%); 
+    else: hsl(0, 0%, 5%)
+  );
+  --color--fg-100: if(
+    style(--theme: 'light'):       hsl(0, 0%, 100%); 
+    style(--theme: 'dark'):        hsl(0, 0%, 0%); 
+    style(--theme: 'alternative'): hsl(192, 19%, 0%); 
+    else: hsl(0, 0%, 0%)
+  );
+
+  /* ======================================================= */
+  /*  */
+  /* ======================================================= */
+
+  --box-shadow--soft: 0px 3px 10px #0000004f;
+  --box-shadow--default: 0px 6px 8px #0000008f;
+  --box-shadow--strong: 0px 7px 10px #000000ab;
+
+  --border-radius--default: 4px;
+  --border-radius--button: var(--border-radius--default);
+  --border-radius--select: var(--border-radius--default);
+
+  /* ####################################################################### */
+  /* SIZES */
+  /* ####################################################################### */
+
+  /* header height */
+  --height--header: if(
+    /* PHONE */ media(width < 767px):  0px;
+    /* TABLET */media(width < 1280px): 54px;
+    /* LAPTOP */media(width < 1920px): 64px;
+    /* DESKTOP */ else:                64px;
+  );
+
+
+  /* main height */
+  --height--main: calc(100svh - var(--height--header) - var(--height--footer) - var(--height--tab-bar));
+
+
+  /* footer height */
+  --height--footer: if(
+    /* PHONE */ media(width < 767px):  0px;
+    /* TABLET */media(width < 1280px): 0px;
+    /* LAPTOP */media(width < 1920px): 0px;
+    /* DESKTOP */ else:                0px;
+  );
+
+  /* menu mobile height */
+  --height--tab-bar: if(
+    /* PHONE */ media(width < 767px):  0px;
+    /* TABLET */media(width < 1280px): calc(8px + 16px + 8px + 24px + 8px);
+    /* LAPTOP */media(width < 1920px): 0px;
+    /* DESKTOP */ else:                0px;
+  );
+
+  --height--side-bar: if(
+    /* PHONE */ media(width < 767px):  calc(100svh - var(--height--header) - var(--height--tab-bar));
+    /* TABLET */media(width < 1280px): calc(100svh - var(--height--header) - var(--height--tab-bar));
+    /* LAPTOP */media(width < 1920px): calc(100svh - var(--height--header));
+    /* DESKTOP */ else:                calc(100svh - var(--height--header));
+  );
+
+  /* ------------------------------------------------------------------------
+  -------------------------------- PADDINGS --------------------------------
+  ------------------------------------------------------------------------ */
+
+  /* --- horizontal padding --- */
+  --horizontal-padding: if(
+    /* PHONE */ media(width < 767px):  16px;
+    /* TABLET */media(width < 1280px): 32px;
+    /* LAPTOP */media(width < 1920px): 5svw;
+    /* DESKTOP */ else:                10svw;
+  );
+
+}

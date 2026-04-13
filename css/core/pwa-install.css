@@ -1,0 +1,48 @@
+.lzr {
+  
+  .pwa-install-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: hsla(0, 0%, 0%, 0.66);
+    transition: opacity .2s linear;
+    opacity: 0;
+
+    &.exist {
+      display: flex;
+    }
+
+    &.visible {
+      opacity: 1;
+    }
+  }
+
+  .pwa-install-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+    background-color: var(--color--bg-default);
+    border-radius: var(--border-radius--default);
+    max-width: calc(100svw - (2*var(--horizontal-padding)));
+
+    .title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    > div {
+      display: flex;
+      margin-left: auto;
+      justify-content: space-between;
+      gap: 16px;
+    }
+  }
+}
