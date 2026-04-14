@@ -13,9 +13,11 @@ const HEADER_TITLE = document.getElementById('headerTitle');
 const MAIN = document.getElementById('main');
 const FOOTER = document.getElementById('footer');
 
+
+
 const GRID_SIZE = 33;
 const MIDDLE_GRID_VALUE = Math.floor(GRID_SIZE / 2);
-const activeTime = 500;
+let activeTime = 700;
 let currentKillScore = 0;
 
 let currentStartingTime = 0;
@@ -30,10 +32,44 @@ let isPlaying = false;
 let gridState = [];
 
 let lastShockwaveUse = 0;
-const SHOCKWAVE_COOLDOWN = 3000; // 3s, 6 ticks
+const SHOCKWAVE_COOLDOWN = 6000; // 6s
 
 let lastHealUse = 0;
-const HEAL_COOLDOWN = 3000; // 3s, 6 ticks
+const HEAL_COOLDOWN = 4000; // 4s
+
+let heat = {
+  electricity: 0,
+  laser: 0,
+  shockwave: 0,
+  heal: 0
+};
+
+const HEAT_MAX = 100;
+
+const HEAT_COST = {
+  electricity: 15,
+  laser: 25,
+  shockwave: 40,
+  heal: 30
+};
+
+const HEAT_COOLDOWN = {
+  electricity: 2,
+  laser: 6,
+  shockwave: 12,
+  heal: 12
+};
+
+const HEAT_COLORS = {
+  color1: 'hsl(180, 100%, 50%)', // 0 ; 25
+  color2: 'hsl(120, 100%, 50%)', // 25 ; 50
+  color3: 'hsl(60, 100%, 50%)', // 50 ; 75
+  color4: 'hsl(30, 100%, 50%)', // 75 ; 99
+  color5: 'hsl(0, 100%, 50%)', // 99 ; 100
+}
+
+let difficulty = 0;
+let currentDamages = 1;
 
 // VIEW RENDER ////////////////////////////////////////////////////////////////////////////////////
 
@@ -61,8 +97,7 @@ export function render() {
       </div>
       
       
-      <div id="buttonsContainerB">
-      </div>
+      <div id="buttonsContainerB">v${APP_VERSION}</div>
     </div>
   `;
 
@@ -234,13 +269,31 @@ function startGame() {
   setupGridObject();
   spawnProbability = startingSpawnProbability;
   currentKillScore = 0;
+  heat = {
+    laser: 0,
+    electricity: 0,
+    shockwave: 0,
+    heal: 0
+  };
   document.getElementById('killScore').innerHTML = `${currentKillScore} kills`;
   document.getElementById('buttonsContainerA').innerHTML = '';
   document.getElementById('buttonsContainerB').innerHTML = `
+    <div class="action-block">
     <button ontouchstart="killBorder()" class="lzr-button">Electrified fortification</button>
-    <button ontouchstart="killLaser()" class="lzr-button">Lasers</button>
-    <button ontouchstart="controlShockwave()" class="lzr-button" id="shockwaveButton">Shockwave</button>
-    <button ontouchstart="healBorder()" class="lzr-button" id="healButton">Heal border</button>
+    <div class="heat-level" id="heatElectricity" style="--heat: ${heat.electricity}%;"></div>
+    </div>
+    <div class="action-block">
+      <div class="heat-level" id="heatLaser" style="--heat: ${heat.laser}%;"></div>
+      <button ontouchstart="killLaser()" class="lzr-button">Lasers</button>
+    </div>
+    <div class="action-block">
+      <div class="heat-level" id="heatShockwave" style="--heat: ${heat.shockwave}%;"></div>
+      <button ontouchstart="controlShockwave()" class="lzr-button" id="shockwaveButton">Shockwave</button>
+    </div>
+    <div class="action-block">
+      <div class="heat-level" id="heatHeal" style="--heat: ${heat.heal}%;"></div>
+      <button ontouchstart="healBorder()" class="lzr-button" id="healButton">Heal border</button>
+    </div>
   `;
   isPlaying = true;
   gameLoop();
@@ -257,7 +310,16 @@ function endGame() {
   document.getElementById('buttonsContainerA').innerHTML = `
     <button id="startButton" onclick="startGame()" class="lzr-button">Start</button>
   `;
-  document.getElementById('buttonsContainerB').innerHTML = '';
+  document.getElementById('buttonsContainerB').innerHTML = `
+    <p style="text-wrap: nowrap;">
+      tick duration : ${activeTime}ms<br>
+      difficulty : ${difficulty}<br>
+      spawn probability : ${spawnProbability}%<br>
+      current damages : ${currentDamages}<br>
+      <br>
+      v${APP_VERSION}
+    </p>
+  `;
 }
 
 /**
@@ -267,6 +329,12 @@ function gameLoop() {
   if (!isPlaying) return;
   currentGameTimeout = setTimeout(() => {
     if (!isPlaying) return;
+
+    const timeFactor = Math.floor((Date.now() - currentStartingTime) / 4500);
+    const killFactor = Math.floor(currentKillScore / 120);
+
+    difficulty = timeFactor + killFactor;
+    currentDamages = 1 + Math.floor(difficulty / 6);
 
     // Already present zombie cells ===========================================
     let zombieCellsCoords = [];
@@ -386,7 +454,7 @@ function gameLoop() {
       for (let neighbourCellCoords of neighbourCellsCoords) {
         let neighbourCell = getCellState(neighbourCellCoords.x, neighbourCellCoords.y);
         if (!neighbourCell || neighbourCell.type != 'border') continue;
-        damageCell(neighbourCellCoords.x, neighbourCellCoords.y, 1);
+        damageCell(neighbourCellCoords.x, neighbourCellCoords.y, currentDamages);
       }
     }
 
@@ -434,9 +502,9 @@ function gameLoop() {
           }
         }
       }
-
     }
-
+    coolDownHeat();
+    activeTime = Math.max(250, 700 - difficulty * 10);
     updateGrid();
     gameLoop();
   }, activeTime);
@@ -446,6 +514,7 @@ function gameLoop() {
 
 function killBorder() {
   if (!isPlaying) return;
+  if (heat.electricity >= HEAT_MAX) return;
   
   for (let index_Y = 0; index_Y < GRID_SIZE; index_Y++) {
     for (let index_X = 0; index_X < GRID_SIZE; index_X++) {
@@ -485,12 +554,16 @@ function killBorder() {
     }
   }
 
+  heat.electricity += HEAT_COST.electricity;
+  if (heat.electricity > HEAT_MAX) heat.electricity = HEAT_MAX;
+  document.getElementById('heatElectricity').style = `--heat: ${heat.electricity}%; --heat-color: ${getColorFromHeat(heat.electricity)};`;
   updateGrid();
 }
 window.killBorder = killBorder;
 
 function killLaser() {
   if (!isPlaying) return;
+  if (heat.laser >= HEAT_MAX) return;
 
   for (let index_Y = 0; index_Y < GRID_SIZE; index_Y++) {
     for (let index_X = 0; index_X < GRID_SIZE; index_X++) {
@@ -516,12 +589,16 @@ function killLaser() {
     }
   }
 
+  heat.laser += HEAT_COST.laser;
+  if (heat.laser > HEAT_MAX) heat.laser = HEAT_MAX;
+  document.getElementById('heatLaser').style = `--heat: ${heat.laser}%; --heat-color: ${getColorFromHeat(heat.laser)};`;
   updateGrid();
 }
 window.killLaser = killLaser;
 
 function controlShockwave() {
   if (!isPlaying) return;
+  if (heat.shockwave >= HEAT_MAX) return;
 
   const now = Date.now();
   if (now - lastShockwaveUse < SHOCKWAVE_COOLDOWN) return;
@@ -578,6 +655,9 @@ function controlShockwave() {
     }
   }
 
+  heat.shockwave += HEAT_COST.shockwave;
+  if (heat.shockwave > HEAT_MAX) heat.shockwave = HEAT_MAX;
+  document.getElementById('heatShockwave').style = `--heat: ${heat.shockwave}%`;
   updateGrid();
   const shockwaveButton = document.getElementById('shockwaveButton');
   shockwaveButton.classList.add('cooldown');
@@ -586,6 +666,7 @@ window.controlShockwave = controlShockwave;
 
 function healBorder() {
   if (!isPlaying) return;
+  if (heat.heal >= HEAT_MAX) return;
 
   const now = Date.now();
   if (now - lastHealUse < HEAL_COOLDOWN) return;
@@ -619,6 +700,9 @@ function healBorder() {
     }
   }
 
+  heat.heal += HEAT_COST.heal;
+  if (heat.heal > HEAT_MAX) heat.heal = HEAT_MAX;
+  document.getElementById('heatHeal').style = `--heat: ${heat.heal}%`;
   updateGrid();
   const healButton = document.getElementById('healButton');
   healButton.classList.add('cooldown');
@@ -660,6 +744,26 @@ function updateTime() {
   currentTimeTimeout = setTimeout(() => {
     updateTime();
   }, 100);
+}
+
+function coolDownHeat() {
+  for (let key in heat) {
+    heat[key] -= Number(Math.floor(HEAT_COST[key] / HEAT_COOLDOWN[key]));
+    if (heat[key] < 0) heat[key] = 0;
+  }
+  
+  document.getElementById('heatElectricity').style = `--heat: ${heat.electricity}%; --heat-color: ${getColorFromHeat(heat.electricity)};`;
+  document.getElementById('heatLaser').style = `--heat: ${heat.laser}%; --heat-color: ${getColorFromHeat(heat.laser)};`;
+  document.getElementById('heatShockwave').style = `--heat: ${heat.shockwave}%; --heat-color: ${getColorFromHeat(heat.shockwave)};`;
+  document.getElementById('heatHeal').style = `--heat: ${heat.heal}%; --heat-color: ${getColorFromHeat(heat.heal)};`;
+}
+
+function getColorFromHeat(heat) {
+  if (heat < 25) return HEAT_COLORS.color1;
+  if (heat < 50) return HEAT_COLORS.color2;
+  if (heat < 75) return HEAT_COLORS.color3;
+  if (heat < 99) return HEAT_COLORS.color4;
+  return HEAT_COLORS.color5;
 }
 
 function isInsideGrid(x, y) {
