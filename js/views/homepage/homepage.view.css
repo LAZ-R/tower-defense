@@ -22,18 +22,17 @@
     width: 100cqw;
     height: 100cqw;
     aspect-ratio: 1/1;
-    background-color: black;
+    /* background-color: black; */
     /* border-radius: var(--padding); */
     container-type: inline-size;
     flex-wrap: wrap;
     overflow: hidden;
 
     text-align: center;
+    background-position: center;
+    background-size: cover;
 
     &.playing {
-      background-image: url('/whack-a-mole-test/assets/medias/images/island.png');
-      background-position: center;
-      background-size: cover;
     }
 
     .grid-cell {
@@ -46,28 +45,36 @@
       aspect-ratio: 1/1;
       /* border: 1px solid hsl(0, 0%, 25%); */
       color: transparent;
-      background-color: hsla(0, 0%, 0%, 0.5);
+      /* background-color: hsla(0, 0%, 0%, 0.5); */
 
       &.center {
         background-color: hsl(140, 100%, 40%);
       }
 
       &.border {
-        background-color: hsl(80, 0%, 40%);
-        border: 1px solid hsl(0, 0%, 25%);
+        background-color: hsl(80, 0%, 60%);
+        border: 1px solid hsl(30, 30%, 0%);
 
-        &.damaged {
-          background-color: hsl(40, 100%, 50%);
-
-          &.critical {
-            background-color: hsl(20, 100%, 50%);
-          }
+        &.hp-5 {
+          background-color: hsl(50, 20%, 40%);
+        }
+        &.hp-4 {
+          background-color: hsl(40, 40%, 50%);
+        }
+        &.hp-3 {
+          background-color: hsl(30, 70%, 50%);
+        }
+        &.hp-2 {
+          background-color: hsl(20, 90%, 50%);
+        }
+        &.hp-1 {
+          background-color: hsl(10, 90%, 50%);
         }
       }
 
       &.zombie {
-        background-color: hsl(330, 100%, 40%);
-        border: 1px solid hsl(330, 100%, 20%);
+        background-color: hsl(280, 80%, 65%);
+        border: 1px solid hsl(280, 80%, 40%);
         border-radius: 4px;
       }
 
@@ -104,13 +111,13 @@
 }
 @keyframes shockwave {
   0%   { background-color: hsl(0, 0%, 50%); }
-  50% { background-color: hsl(0, 0%, 25%); }
-  100%   { background-color: hsl(0, 0%, 0%); }
+  50% { background-color: hsl(0, 0%, 25%, 50%); }
+  100%   { background-color: hsl(0, 0%, 0%, 0%); }
 }
 @keyframes heal {
   0%   { background-color: hsl(0, 0%, 100%); }
   50% { background-color: hsl(120, 100%, 50%); }
-  100%   { background-color: hsl(0, 0%, 0%); }
+  100%   { background-color: hsl(0, 0%, 0%, 0%); }
 }
 
 .input-container {
@@ -200,6 +207,7 @@
     grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
     grid-template-rows: repeat(2, 1fr); /* 2 lignes */
     gap: 16px;
+    container-type: inline-size;
 
     .action-block {
       display: flex;
@@ -232,6 +240,15 @@
 
     .cooldown {
       opacity: .33;
+    }
+
+    .game-over-display {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100cqw;
+      gap: 8px;
     }
   }
 }
