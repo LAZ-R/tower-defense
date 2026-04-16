@@ -21,6 +21,7 @@ const BORDER_MAX_HP = 6;
 const STARTING_ZOMBIE_SPAWN_PROBABILITY = 50;
 const ZOMBIE_SPAWN_PROBABILITY_UPDATE_DELAY = 30000; // 30s
 const STARTING_ZOMBIE_DAMAGES = 1;
+const ZOMBIE_DAMAGES_UPDATE_DELAY = 30000; // 30s
 const SHOCKWAVE_COOLDOWN = 5000; // 5s
 const HEAL_COOLDOWN = 7000; // 7s
 // Heat -----------------------------------------------------------------------
@@ -354,13 +355,15 @@ function gameLoop() {
     if (!isPlaying) return;
 
     const elapsed = Date.now() - currentStartingTime;
-    const timeFactor = Math.floor(elapsed / 4500);
-    const killFactor = Math.floor(currentKillScore / 120);
 
-    currentDifficulty = timeFactor + killFactor;
-    // Update zombie damages
-    currentZombieDamages = 1 + Math.floor(currentDifficulty / 12);
-    if (currentZombieDamages > BORDER_MAX_HP) currentZombieDamages = BORDER_MAX_HP;
+    if (elapsed > ZOMBIE_DAMAGES_UPDATE_DELAY) {
+      const timeFactor = Math.floor(elapsed / 4500);
+      const killFactor = Math.floor(currentKillScore / 120);
+      currentDifficulty = timeFactor + killFactor;
+      // Update zombie damages
+      currentZombieDamages = 1 + Math.floor(currentDifficulty / 12);
+      if (currentZombieDamages > BORDER_MAX_HP) currentZombieDamages = BORDER_MAX_HP;
+    }
 
     // Already present zombie cells ===========================================
     let zombieCellsCoords = [];
