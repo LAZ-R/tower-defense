@@ -326,7 +326,7 @@ function startGame() {
       <button ontouchstart="killDiagonal()" class="lzr-button">Diagonal</button>
     </div>
 
-    <div id="stripesActionBlock" class="action-block third">
+    <div id="stripesActionBlock" class="action-block third disabled">
       <div class="heat-level" id="heatStripes" style="--heat: ${currentHeat.stripes}%;"></div>
       <button ontouchstart="killStripes()" class="lzr-button">Stripes</button>
     </div>
