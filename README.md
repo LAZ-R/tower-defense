@@ -3,9 +3,9 @@
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)  
 
-Version `0.0.0.5`
+Version `0.0.0.6`
 
-**[Tester la version déployée sur GitHub Pages](https://laz-r.github.io/splatoon-pandemic/)**
+**[Tester la version déployée sur GitHub Pages](https://laz-r.github.io/tower-defense/)**
 
 ## Présentation
     
@@ -20,7 +20,7 @@ This is mostly a *proof of concept* so the code here is awfull, I know.
 
 ## Changelog
 
-- v 0.0.0.5 - ajout delay damages
+- v 0.0.0.6 - electricity auto + diagonale + stripes + équilibrage
 
 ---
 

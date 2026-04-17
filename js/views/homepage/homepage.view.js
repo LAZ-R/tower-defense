@@ -22,28 +22,32 @@ const STARTING_ZOMBIE_SPAWN_PROBABILITY = 50;
 const ZOMBIE_SPAWN_PROBABILITY_UPDATE_DELAY = 30000; // 30s
 const STARTING_ZOMBIE_DAMAGES = 1;
 const ZOMBIE_DAMAGES_UPDATE_DELAY = 30000; // 30s
+const STARTING_ELECTRICITY_LOOP_DURATION = 400;
+const LASERS_UPGRADE_STEP = 5; // 1m 30s
+const DIAGONAL_UNLOCK_STEP = 3; // 1m 00s
+const DIAGONAL_UPGRADE_STEP = 9; // 2m 30s
+const STRIPES_UNLOCK_STEP = 7; // 2m 00s
+const STRIPES_UPGRADE_STEP = 11; // 3m 30s
 const SHOCKWAVE_COOLDOWN = 5000; // 5s
 const HEAL_COOLDOWN = 7000; // 7s
 // Heat -----------------------------------------------------------------------
 const HEAT_MAX = 100;
 const HEAT_COST = {
-  electricity: 15,
-  laser: 25,
-  shockwave: 40,
-  heal: 30
+  lasers: 15,
+  diagonal: 18,
+  stripes: 27,
 };
 const HEAT_COOLDOWN = {
-  electricity: 2,
-  laser: 6,
-  shockwave: 12,
-  heal: 12
+  lasers: 3,
+  diagonal: 6,
+  stripes: 9,
 };
 const HEAT_COLORS = {
   color1: 'hsl(180, 100%, 50%)', // 0 ; 25
   color2: 'hsl(120, 100%, 50%)', // 25 ; 50
   color3: 'hsl(60, 100%, 50%)', // 50 ; 75
-  color4: 'hsl(30, 100%, 50%)', // 75 ; 99
-  color5: 'hsl(0, 100%, 50%)', // 99 ; 100
+  color4: 'hsl(30, 100%, 50%)', // 75 ; 90
+  color5: 'hsl(0, 100%, 50%)', // 90 ; 100
 }
 
 // Current game ///////////////////////////////////////////////////////////////////////////////////
@@ -52,22 +56,30 @@ let gridState = [];
 // Game -----------------------------------------------------------------------
 let currentStartingTime = 0;
 let currentTickDuration = STARTING_TICK_DURATION;
+let currentStep = 0;
 let currentDifficulty = 0;
 let currentZombieDamages = STARTING_ZOMBIE_DAMAGES;
 let currentKillScore = 0;
 let currentZombieSpawnProbability = STARTING_ZOMBIE_SPAWN_PROBABILITY;
 let currentGameTimeout = null;
 let currentTimeTimeout = null;
+let currentElectricityTimeout = null;
 let isPlaying = false;
 // User actions ---------------------------------------------------------------
+let currentLasersLevel = 1;
+let currentDiagonalLevel = 1;
+let currentStripesLevel = 1;
 let lastShockwaveUse = 0;
 let lastHealUse = 0;
+let isLasersOverheated = false;
+let isDiagonalOverheated = false;
+let isStripesOverheated = false;
+let stripesType = 0;
 // Heat -----------------------------------------------------------------------
 let currentHeat = {
-  electricity: 0,
-  laser: 0,
-  shockwave: 0,
-  heal: 0
+  lasers: 0,
+  diagonal: 0,
+  stripes: 0,
 };
 
 
@@ -92,8 +104,10 @@ export function render() {
       <div id="buttonsContainerA">
         <button id="startButton" onclick="startGame()" class="lzr-button">Start</button>
       </div>
-      <div class="input-container">
-        <div><span id="killScore">0</span><span id="duration">Game duration</span></div>
+      <div class="top-container">
+        <span id="killScore">0 kills</span>
+        <span id="step">Step 0</span>
+        <span id="duration">00s</span>
       </div>
       
       
@@ -267,6 +281,7 @@ function updateGrid() {
  * 
  */
 function startGame() {
+  clearTimeout(currentElectricityTimeout);
   clearTimeout(currentGameTimeout);
   clearTimeout(currentTimeTimeout);
 
@@ -280,13 +295,20 @@ function startGame() {
   currentZombieDamages = STARTING_ZOMBIE_DAMAGES;
   currentZombieSpawnProbability = STARTING_ZOMBIE_SPAWN_PROBABILITY;
   currentHeat = {
-    laser: 0,
-    electricity: 0,
-    shockwave: 0,
-    heal: 0
+    lasers: 0,
+    diagonal: 0,
+    stripes: 0,
   };
+  currentStep = 0;
+  currentLasersLevel = 1;
+  currentDiagonalLevel = 1;
+  currentStripesLevel = 1;
   lastShockwaveUse = 0;
   lastHealUse = 0;
+  isLasersOverheated = false;
+  isDiagonalOverheated = false;
+  isStripesOverheated = false;
+  stripesType = 0;
   
   isPlaying = true;
 
@@ -294,31 +316,39 @@ function startGame() {
   document.getElementById('killScore').innerHTML = `${currentKillScore} kills`;
   document.getElementById('buttonsContainerA').innerHTML = '';
   document.getElementById('buttonsContainerB').innerHTML = `
-    <div class="action-block">
-    <button ontouchstart="killBorder()" class="lzr-button">Electrified fortification</button>
-    <div class="heat-level" id="heatElectricity" style="--heat: ${currentHeat.electricity}%;"></div>
+    <div class="action-block third">
+      <div class="heat-level" id="heatLasers" style="--heat: ${currentHeat.lasers}%;"></div>
+      <button ontouchstart="killLasers()" class="lzr-button">Lasers</button>
     </div>
-    <div class="action-block">
-      <div class="heat-level" id="heatLaser" style="--heat: ${currentHeat.laser}%;"></div>
-      <button ontouchstart="killLaser()" class="lzr-button">Lasers</button>
+
+    <div id="diagonalActionBlock" class="action-block third disabled">
+      <div class="heat-level" id="heatDiagonal" style="--heat: ${currentHeat.diagonal}%;"></div>
+      <button ontouchstart="killDiagonal()" class="lzr-button">Diagonal</button>
     </div>
+
+    <div id="stripesActionBlock" class="action-block third">
+      <div class="heat-level" id="heatStripes" style="--heat: ${currentHeat.stripes}%;"></div>
+      <button ontouchstart="killStripes()" class="lzr-button">Stripes</button>
+    </div>
+    
     <div class="action-block">
-      <div class="heat-level" id="heatShockwave" style="--heat: ${currentHeat.shockwave}%;"></div>
       <button ontouchstart="controlShockwave()" class="lzr-button" id="shockwaveButton">Shockwave</button>
     </div>
+
     <div class="action-block">
-      <div class="heat-level" id="heatHeal" style="--heat: ${currentHeat.heal}%;"></div>
       <button ontouchstart="healBorder()" class="lzr-button" id="healButton">Heal border</button>
     </div>
   `;
 
   gameLoop();
+  electricityLoop();
   updateTime();
 }
 window.startGame = startGame;
 
 function endGame() {
   isPlaying = false;
+  clearTimeout(currentElectricityTimeout);
   clearTimeout(currentGameTimeout);
   clearTimeout(currentTimeTimeout);
   document.getElementById('buttonsContainerA').innerHTML = `
@@ -328,6 +358,9 @@ function endGame() {
     <div class="game-over-display">
       <strong style="color: var(--color--error);">Game over</strong>
       <hr>
+      <div class="input-container">
+        <div><span>Step</span><strong>${currentStep}</strong></div>
+      </div>
       <div class="input-container">
         <div><span>Tick duration</span><strong>${currentTickDuration}ms</strong></div>
       </div>
@@ -356,9 +389,9 @@ function gameLoop() {
 
     const elapsed = Date.now() - currentStartingTime;
 
-    if (elapsed > ZOMBIE_DAMAGES_UPDATE_DELAY) {
+    if (elapsed >= ZOMBIE_DAMAGES_UPDATE_DELAY) {
       const timeFactor = Math.floor(elapsed / 4500);
-      const killFactor = Math.floor(currentKillScore / 120);
+      const killFactor = Math.floor(currentKillScore / 80);
       currentDifficulty = timeFactor + killFactor;
       // Update zombie damages
       currentZombieDamages = 1 + Math.floor(currentDifficulty / 12);
@@ -513,14 +546,14 @@ function gameLoop() {
       }
 
       // Update probability
-      if (elapsed > ZOMBIE_SPAWN_PROBABILITY_UPDATE_DELAY) {
+      if (elapsed >= ZOMBIE_SPAWN_PROBABILITY_UPDATE_DELAY) {
         if (currentZombieSpawnProbability < 100) {
           currentZombieSpawnProbability += (100 - currentZombieSpawnProbability) * 0.01;
         }
       }
 
       let spawnAdditionalZombiesValue = getRandomIntegerBetween(1, 100);
-      if (spawnAdditionalZombiesValue <= currentDifficulty * 2) {
+      if (spawnAdditionalZombiesValue <= Math.min(50, currentDifficulty * 3)) {
         for (let index = 0; index < 2; index++) {
           const randomCellCoords = spawnableCellsCoords[getRandomIntegerBetween(0, spawnableCellsCoords.length - 1)];
 
@@ -533,22 +566,55 @@ function gameLoop() {
     }
     coolDownHeat();
 
-    // Réduction de la durée du tick : palier de 500ms toutes les 15sec
-    if (elapsed > TICK_DURATION_UPDATE_DELAY) {
-      const step = Math.floor(elapsed / 15000);
-      currentTickDuration = Math.max(MINIMAL_TICK_DURATION, STARTING_TICK_DURATION - step * 50);
+    // Réduction de la durée du tick : palier de -10% toutes les 15sec
+    
+    if (elapsed >= TICK_DURATION_UPDATE_DELAY) {
+      const adjustedElapsed = elapsed - TICK_DURATION_UPDATE_DELAY;
+      currentStep = 1 + Math.floor(adjustedElapsed / 15000);
+      currentTickDuration = Math.max(
+        MINIMAL_TICK_DURATION,
+        Math.round(STARTING_TICK_DURATION * Math.pow(0.93, currentStep))
+      );
     }
+
+    
+
+    // Unlock actions
+    if (currentStep == DIAGONAL_UNLOCK_STEP && document.getElementById('diagonalActionBlock').classList.contains('disabled')) {
+      document.getElementById('diagonalActionBlock').classList.remove('disabled');
+    }
+
+    if (currentStep == STRIPES_UNLOCK_STEP && document.getElementById('stripesActionBlock').classList.contains('disabled')) {
+      document.getElementById('stripesActionBlock').classList.remove('disabled');
+    }
+
+    // Upgrade lasers
+    if (currentStep == LASERS_UPGRADE_STEP && currentLasersLevel < 2) currentLasersLevel = 2;
+
+    // Upgrade diagonal
+    if (currentStep == DIAGONAL_UPGRADE_STEP && currentDiagonalLevel < 2) currentDiagonalLevel = 2;
+
+    // Upgrade stripes
+    //if (currentStep == STRIPES_UPGRADE_STEP && currentDiagonalLevel < 2) currentDiagonalLevel = 2;
 
     updateGrid();
     gameLoop();
   }, currentTickDuration);
 }
 
-// USER ACTIONS ///////////////////////////////////////////////////////////////////////////////////
+function electricityLoop() {
+  if (!isPlaying) return;
+  currentElectricityTimeout = setTimeout(() => {
+    if (!isPlaying) return;
+    killBorder();
+    electricityLoop();
+  }, STARTING_ELECTRICITY_LOOP_DURATION);
+}
+
+// AUTOMATIC ACTIONS //////////////////////////////////////////////////////////////////////////////
 
 function killBorder() {
   if (!isPlaying) return;
-  if (currentHeat.electricity >= HEAT_MAX) return;
   
   for (let index_Y = 0; index_Y < GRID_SIZE; index_Y++) {
     for (let index_X = 0; index_X < GRID_SIZE; index_X++) {
@@ -587,17 +653,14 @@ function killBorder() {
       }
     }
   }
-
-  currentHeat.electricity += HEAT_COST.electricity;
-  if (currentHeat.electricity > HEAT_MAX) currentHeat.electricity = HEAT_MAX;
-  document.getElementById('heatElectricity').style = `--heat: ${currentHeat.electricity}%; --heat-color: ${getColorFromHeat(currentHeat.electricity)};`;
   updateGrid();
 }
-window.killBorder = killBorder;
 
-function killLaser() {
+// USER ACTIONS ///////////////////////////////////////////////////////////////////////////////////
+
+function killLasers() {
   if (!isPlaying) return;
-  if (currentHeat.laser >= HEAT_MAX) return;
+  if (isLasersOverheated) return;
 
   for (let index_Y = 0; index_Y < GRID_SIZE; index_Y++) {
     for (let index_X = 0; index_X < GRID_SIZE; index_X++) {
@@ -616,6 +679,46 @@ function killLaser() {
       cellDom.classList.add('wiped');
       cellDom.classList.add('lasers');
 
+      if (currentLasersLevel > 1) {
+        let neighbourCellsCoords = [];
+        if (index_X == MIDDLE_GRID_VALUE) {
+          neighbourCellsCoords = [
+            { x: index_X - 1, y: index_Y, }, // left
+            { x: index_X + 1, y: index_Y, }, // right
+          ];
+        }
+        if (index_Y == MIDDLE_GRID_VALUE) {
+          neighbourCellsCoords = [
+            { x: index_X, y: index_Y - 1, }, // top
+            { x: index_X, y: index_Y + 1, }, // bottom
+          ];
+        }
+
+        for (const neighbourCellCoords of neighbourCellsCoords) {
+          const neighbourCellState = getCellState(neighbourCellCoords.x, neighbourCellCoords.y);
+          if (!neighbourCellState) continue;
+
+          const neighbourCellDom = document.getElementById(`${neighbourCellCoords.x}-${neighbourCellCoords.y}`);
+          if (!neighbourCellDom) continue;
+          
+          if (neighbourCellState.type === 'zombie') {
+            setCellType(neighbourCellCoords.x, neighbourCellCoords.y, 'empty')
+            currentKillScore += 1;
+            document.getElementById('killScore').innerHTML = `${currentKillScore} kills`;
+          }
+
+          if (neighbourCellState.type !== 'center' && neighbourCellState.type !== 'border') {
+            neighbourCellDom.classList.add('wiped');
+            neighbourCellDom.classList.add('lasers');
+    
+            setTimeout(() => {
+              neighbourCellDom.classList.remove('wiped');
+              neighbourCellDom.classList.remove('lasers');
+            }, 200);
+          }
+        }
+      }
+
       setTimeout(() => {
         cellDom.classList.remove('wiped');
         cellDom.classList.remove('lasers');
@@ -623,16 +726,167 @@ function killLaser() {
     }
   }
 
-  currentHeat.laser += HEAT_COST.laser;
-  if (currentHeat.laser > HEAT_MAX) currentHeat.laser = HEAT_MAX;
-  document.getElementById('heatLaser').style = `--heat: ${currentHeat.laser}%; --heat-color: ${getColorFromHeat(currentHeat.laser)};`;
+  currentHeat.lasers += Math.floor(HEAT_COST.lasers * (1 + currentLasersLevel * 0.2));
+  if (currentHeat.lasers >= HEAT_MAX) {
+    currentHeat.lasers = HEAT_MAX;
+    isLasersOverheated = true;
+  }
+  document.getElementById('heatLasers').style = `--heat: ${currentHeat.lasers}%; --heat-color: ${getColorFromHeat(currentHeat.lasers)};`;
   updateGrid();
 }
-window.killLaser = killLaser;
+window.killLasers = killLasers;
+
+function killDiagonal() {
+  if (!isPlaying) return;
+  if (currentStep < DIAGONAL_UNLOCK_STEP) return;
+  if (isDiagonalOverheated) return;
+  
+
+  for (let index_Y = 0; index_Y < GRID_SIZE; index_Y++) {
+    for (let index_X = 0; index_X < GRID_SIZE; index_X++) {
+      if (Math.abs(index_X - MIDDLE_GRID_VALUE) !== Math.abs(index_Y - MIDDLE_GRID_VALUE)) continue;
+
+      const cellState = getCellState(index_X, index_Y);
+      if (cellState.type == 'border' || cellState.type == 'center') continue;
+
+      if (isCellType(index_X, index_Y, 'zombie')) {
+        setCellType(index_X, index_Y, 'empty');
+        currentKillScore += 1;
+        document.getElementById('killScore').innerHTML = `${currentKillScore} kills`;
+      }
+
+      const cellDom = document.getElementById(`${index_X}-${index_Y}`);
+      cellDom.classList.add('wiped');
+      cellDom.classList.add('diagonal');
+
+      if (currentDiagonalLevel > 1) {
+        let neighbourCellsCoords = [];
+        
+        neighbourCellsCoords = [
+          { x: index_X, y: index_Y - 1, }, // top
+          { x: index_X, y: index_Y + 1, }, // bottom
+        ];
+
+        for (const neighbourCellCoords of neighbourCellsCoords) {
+          const neighbourCellState = getCellState(neighbourCellCoords.x, neighbourCellCoords.y);
+          if (!neighbourCellState) continue;
+
+          const neighbourCellDom = document.getElementById(`${neighbourCellCoords.x}-${neighbourCellCoords.y}`);
+          if (!neighbourCellDom) continue;
+          
+          if (neighbourCellState.type === 'zombie') {
+            setCellType(neighbourCellCoords.x, neighbourCellCoords.y, 'empty')
+            currentKillScore += 1;
+            document.getElementById('killScore').innerHTML = `${currentKillScore} kills`;
+          }
+
+          if (neighbourCellState.type !== 'center' && neighbourCellState.type !== 'border') {
+            neighbourCellDom.classList.add('wiped');
+            neighbourCellDom.classList.add('diagonal');
+    
+            setTimeout(() => {
+              neighbourCellDom.classList.remove('wiped');
+              neighbourCellDom.classList.remove('diagonal');
+            }, 200);
+          }
+        }
+      }
+
+      setTimeout(() => {
+        cellDom.classList.remove('wiped');
+        cellDom.classList.remove('diagonal');
+      }, 200);
+    }
+  }
+
+  currentHeat.diagonal += Math.floor(HEAT_COST.diagonal * (1 + currentDiagonalLevel * 0.2));
+  if (currentHeat.diagonal >= HEAT_MAX) {
+    currentHeat.diagonal = HEAT_MAX;
+    isDiagonalOverheated = true;
+  }
+  document.getElementById('heatDiagonal').style = `--heat: ${currentHeat.diagonal}%; --heat-color: ${getColorFromHeat(currentHeat.diagonal)};`;
+  updateGrid();
+}
+window.killDiagonal = killDiagonal;
+
+function killStripes() {
+  if (!isPlaying) return;
+  if (currentStep < STRIPES_UNLOCK_STEP) return;
+  if (isStripesOverheated) return;
+
+  let type = '';
+
+  stripesType += 1;
+  if (stripesType > 3) stripesType = 0;
+
+  if (stripesType == 0) type = 'vertical-odd';
+  else if (stripesType == 1) type = 'horizontal-odd';
+  else if (stripesType == 2) type = 'vertical-even';
+  else if (stripesType == 3) type = 'horizontal-even';
+
+  function isOdd(num) { return num % 2;}
+  
+  for (let index_Y = 0; index_Y < GRID_SIZE; index_Y++) {
+    for (let index_X = 0; index_X < GRID_SIZE; index_X++) {
+
+      let shouldSkip = false;
+
+      switch (type) {
+        case 'vertical-odd':
+          if (!isOdd(index_X)) shouldSkip = true;
+          break;
+
+        case 'vertical-even':
+          if (isOdd(index_X)) shouldSkip = true;
+          break;
+
+        case 'horizontal-odd':
+          if (!isOdd(index_Y)) shouldSkip = true;
+          break;
+
+        case 'horizontal-even':
+          if (isOdd(index_Y)) shouldSkip = true;
+          break;
+      }
+
+      if (shouldSkip) continue;
+
+      const cellState = getCellState(index_X, index_Y);
+      if (cellState.type == 'border' || cellState.type == 'center') continue;
+
+      if (isCellType(index_X, index_Y, 'zombie')) {
+        setCellType(index_X, index_Y, 'empty');
+        currentKillScore += 1;
+        document.getElementById('killScore').innerHTML = `${currentKillScore} kills`;
+      }
+
+      const cellDom = document.getElementById(`${index_X}-${index_Y}`);
+      cellDom.classList.add('wiped');
+      cellDom.classList.add('stripes');
+
+      if (currentStripesLevel > 1) {
+        // 
+      }
+
+      setTimeout(() => {
+        cellDom.classList.remove('wiped');
+        cellDom.classList.remove('stripes');
+      }, 200);
+    }
+  }
+
+  currentHeat.stripes += Math.floor(HEAT_COST.stripes * (1 + currentStripesLevel * 0.2));
+  if (currentHeat.stripes >= HEAT_MAX) {
+    currentHeat.stripes = HEAT_MAX;
+    isStripesOverheated = true;
+  }
+  document.getElementById('heatStripes').style = `--heat: ${currentHeat.stripes}%; --heat-color: ${getColorFromHeat(currentHeat.stripes)};`;
+  updateGrid();
+}
+window.killStripes = killStripes;
 
 function controlShockwave() {
   if (!isPlaying) return;
-  if (currentHeat.shockwave >= HEAT_MAX) return;
 
   const now = Date.now();
   if (now - lastShockwaveUse < SHOCKWAVE_COOLDOWN) return;
@@ -689,9 +943,6 @@ function controlShockwave() {
     }
   }
 
-  currentHeat.shockwave += HEAT_COST.shockwave;
-  if (currentHeat.shockwave > HEAT_MAX) currentHeat.shockwave = HEAT_MAX;
-  document.getElementById('heatShockwave').style = `--heat: ${currentHeat.shockwave}%`;
   updateGrid();
   const shockwaveButton = document.getElementById('shockwaveButton');
   shockwaveButton.classList.add('cooldown');
@@ -700,7 +951,6 @@ window.controlShockwave = controlShockwave;
 
 function healBorder() {
   if (!isPlaying) return;
-  if (currentHeat.heal >= HEAT_MAX) return;
 
   const now = Date.now();
   if (now - lastHealUse < HEAL_COOLDOWN) return;
@@ -712,10 +962,10 @@ function healBorder() {
 
       const cellState = getCellState(index_X, index_Y);
       if (cellState.type != 'border') continue;
-      if (cellState.hp >= 4) continue;
+      if (cellState.hp >= 5) continue; // Max heal = 4
 
       const healAmount = Math.max(1, Math.ceil(currentZombieDamages / 2));
-      cellState.hp = Math.min(4, cellState.hp + healAmount);
+      cellState.hp = Math.min(BORDER_MAX_HP, cellState.hp + healAmount);
     }
   }
 
@@ -735,9 +985,6 @@ function healBorder() {
     }
   }
 
-  currentHeat.heal += HEAT_COST.heal;
-  if (currentHeat.heal > HEAT_MAX) currentHeat.heal = HEAT_MAX;
-  document.getElementById('heatHeal').style = `--heat: ${currentHeat.heal}%`;
   updateGrid();
   const healButton = document.getElementById('healButton');
   healButton.classList.add('cooldown');
@@ -751,6 +998,8 @@ function updateTime() {
   let currentTime = Date.now();
   //document.getElementById('time').innerHTML = `${((currentEndingingTime - currentTime) / 1000).toFixed(1)}s`;
   document.getElementById('duration').innerHTML = `${ getAdaptiveVerboseTimeStringByMilliseconds(currentTime - currentStartingTime) }`;
+
+  document.getElementById('step').innerHTML = `Step ${currentStep}`;
 
   // update shockwave if cooldown
   const shockwaveButton = document.getElementById('shockwaveButton');
@@ -783,21 +1032,46 @@ function updateTime() {
 
 function coolDownHeat() {
   for (let key in currentHeat) {
-    currentHeat[key] -= Number(Math.floor(HEAT_COST[key] / HEAT_COOLDOWN[key]));
+
+    let decay = Math.floor(HEAT_COST[key] / HEAT_COOLDOWN[key]);
+
+    // si overheated → refroidissement ULTRA lent
+    if (
+      (key === 'lasers' && isLasersOverheated) ||
+      (key === 'diagonal' && isDiagonalOverheated) ||
+      (key === 'stripes' && isStripesOverheated)
+    ) {
+      decay = 1; // très lent
+    }
+
+    currentHeat[key] -= decay;
     if (currentHeat[key] < 0) currentHeat[key] = 0;
   }
-  
-  document.getElementById('heatElectricity').style = `--heat: ${currentHeat.electricity}%; --heat-color: ${getColorFromHeat(currentHeat.electricity)};`;
-  document.getElementById('heatLaser').style = `--heat: ${currentHeat.laser}%; --heat-color: ${getColorFromHeat(currentHeat.laser)};`;
-  document.getElementById('heatShockwave').style = `--heat: ${currentHeat.shockwave}%; --heat-color: ${getColorFromHeat(currentHeat.shockwave)};`;
-  document.getElementById('heatHeal').style = `--heat: ${currentHeat.heal}%; --heat-color: ${getColorFromHeat(currentHeat.heal)};`;
+
+  // sortie d'overheat
+  if (currentHeat.lasers <= HEAT_MAX * 0.9) {
+    isLasersOverheated = false;
+  }
+
+  if (currentHeat.diagonal <= HEAT_MAX * 0.9) {
+    isDiagonalOverheated = false;
+  }
+
+  if (currentHeat.stripes <= HEAT_MAX * 0.9) {
+    isStripesOverheated = false;
+  }
+
+  // update UI
+  document.getElementById('heatLasers').style = `--heat: ${currentHeat.lasers}%; --heat-color: ${getColorFromHeat(currentHeat.lasers)};`;
+  document.getElementById('heatDiagonal').style = `--heat: ${currentHeat.diagonal}%; --heat-color: ${getColorFromHeat(currentHeat.diagonal)};`;
+  document.getElementById('heatStripes').style = `--heat: ${currentHeat.stripes}%; --heat-color: ${getColorFromHeat(currentHeat.stripes)};`;
 }
 
 function getColorFromHeat(heat) {
   if (heat < 25) return HEAT_COLORS.color1;
   if (heat < 50) return HEAT_COLORS.color2;
   if (heat < 75) return HEAT_COLORS.color3;
-  if (heat < 99) return HEAT_COLORS.color4;
+  if (heat < (HEAT_MAX * 0.9)) return HEAT_COLORS.color4;
   return HEAT_COLORS.color5;
 }
 
@@ -822,7 +1096,7 @@ function setCellType(x, y, type) {
   }
 }
 
-function setBorderCell(x, y, hp = 5) {
+function setBorderCell(x, y, hp = BORDER_MAX_HP) {
   if (!isInsideGrid(x, y)) return;
 
   gridState[x][y].type = 'border';

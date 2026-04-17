@@ -1,5 +1,5 @@
 export const APP_NAME = "Tower Defense";
-export const APP_VERSION = '0.0.0.5';
+export const APP_VERSION = '0.0.0.6';
 export const APP_LOCAL_STORAGE_ID = `tower-defense-0001`;
 
 /* 
@@ -7,6 +7,7 @@ export const APP_LOCAL_STORAGE_ID = `tower-defense-0001`;
 
 # CHANGELOG ###############################################
 
+v 0.0.0.6 - electricity auto + diagonale + stripes + équilibrage
 v 0.0.0.5 - ajout delay damages
 v 0.0.0.4 - ajout bg + équilibrage + 6hp pour border
 v 0.0.0.3 - ajout heat + difficulty scale + équilibrage préliminaire
